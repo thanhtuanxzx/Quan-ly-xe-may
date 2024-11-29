@@ -1,0 +1,91 @@
+.ad-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.ad-title {
+    font-size: 3em;
+    text-align: center;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+/* Định dạng cho các trường input */
+.ad-form-group input ,.ad-form-group select{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 5px;
+}
+
+/* Định dạng cho các nút submit */
+.ad-btn-submit {
+    width: 100%;
+    padding: 15px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.ad-btn-submit:hover {
+    background-color: #2980b9;
+}
+
+/* Định dạng cho form thêm thông tin xe */
+.ad-add-vehicle-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.ad-add-vehicle-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Định dạng cho form container */
+.ad-add-vehicle-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ad-form-group label {
+    font-size: 16px;
+    color: #333;
+}
+
+.ad-btn-form{
+    flex-direction: row;
+    gap: 20px;
+}
+
+.ad-btn-form button{
+    flex: 1;
+}
+
+.ad-btn-close {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff0606;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.ad-btn-close:hover {
+    background-color: #8e1313;
+}

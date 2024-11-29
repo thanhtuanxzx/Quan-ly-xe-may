@@ -1,0 +1,174 @@
+.ad-title {
+    font-size: 3em;
+    text-align: center;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+/* Container tìm kiếm */
+.ad-search-container {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ad-form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Định dạng chung cho input và select */
+.ad-input, .ad-select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    font-size: 1em;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Khi input hoặc select được focus */
+.ad-input:focus, .ad-select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Định dạng cho nút tìm kiếm */
+.ad-btn-search {
+    width: 100%;
+    padding: 15px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ad-btn-search:hover {
+    background-color: #2980b9;
+}
+
+
+/* Kết quả tìm kiếm */
+.ad-result-container {
+    margin: 30px 0px;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ad-result-title {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.ad-result-item {
+    display: flex;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    gap: 10px;
+}
+
+.ad-result-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.ad-result-image {
+    flex-shrink: 0;
+    margin-right: 20px;
+    border-radius: 8px;
+    width: 200px; /* Chiều rộng cố định */
+    height: 200px; /* Chiều cao cố định để duy trì tỷ lệ 1:1 */
+    overflow: hidden; /* Đảm bảo không có phần ảnh vượt ra ngoài */
+}
+
+.ad-motor-price{
+    color: #ff1900;
+}
+
+.ad-result-image img {
+    width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử cha */
+    height: 100%; /* Chiếm toàn bộ chiều cao của phần tử cha */
+    object-fit: cover; /* Giữ tỉ lệ của ảnh và cắt bớt phần thừa nếu cần */
+    border-radius: 8px;
+    margin: auto;
+}
+
+.ad-result-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.ad-result-info p {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+
+.ad-result-info strong {
+    color: #2980b9;
+    font-weight: 600;
+}
+
+/* Nút hành động */
+.ad-result-actions {
+    margin-top: 15px;
+}
+
+.ad-result-actions button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.ad-btn-view {
+    background-color: #3498db;
+    color: white;
+}
+
+.ad-btn-view:hover {
+    background-color: #2980b9;
+}
+
+.ad-btn-edit {
+    background-color: #f39c12;
+    color: white;
+}
+
+.ad-btn-edit:hover {
+    background-color: #e67e22;
+}
+
+.ad-btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.ad-btn-delete:hover {
+    background-color: #c0392b;
+}
