@@ -48,4 +48,18 @@ Route::get('delete', [AdminController::class, 'deleteMotor'])->name('admin.delet
     Route::get('vehicle-lookup', [AdminController::class, 'search'])->name('motor.search');
     Route::post('/admin/store_motor', [AdminController::class, 'store'])->name('admin.store_motor');
 
+
+    Route::get('/account-admin', [AdminController::class, 'accountAdmin'])->name('admin.account');
+    Route::get('/add-customer', [AdminController::class, 'addCustomer'])->name('admin.add.customer');
+    Route::get('/customer-lookup', [AdminController::class, 'customerLookup'])->name('admin.customer.lookup');
+    Route::get('/edit-customer', [AdminController::class, 'editCustomer'])->name('admin.edit.customer');
+    Route::get('/history-customer', [AdminController::class, 'historyCustomer'])->name('admin.history.customer');
+
+    Route::get('/list-customer', [AdminController::class, 'listCustomer'])->name('admin.list.customer');
+    Route::get('/statistical', [AdminController::class, 'statistical'])->name('admin.statistical');
+    Route::get('/trade-maintenance', [AdminController::class, 'tradeMaintenance'])->name('admin.trade.maintenance');
+    Route::get('/trade-motor', [AdminController::class, 'tradeMotor'])->name('admin.trade.motor');
+    Route::get('/transaction-list', [AdminController::class, 'transactionList'])->name('admin.transaction.list');
+
+
 });

@@ -1,0 +1,17 @@
+.ad-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.ad-table th, .ad-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+.ad-table th {
+    background-color: #f4f4f4;
+}
+canvas {
+    width: 100% !important;
+    height: 400px;
+}

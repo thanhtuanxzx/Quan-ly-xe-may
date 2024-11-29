@@ -1,0 +1,125 @@
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Các phần trong quản lý tài khoản */
+.account-management {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Phần thông tin cá nhân */
+.user-info {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.user-info h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Định dạng cho các trường nhập thông tin */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #3498db;
+    background-color: #f9f9f9;
+}
+
+.ad-btn_in4{
+    display: flex;
+    gap: 15px;
+}
+/* Nút submit và đổi mật khẩu */
+.btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+.btn-change-password,
+.btn-cancel {
+    width: 100%;
+    background-color: #f1c40f;
+    transition: background-color 0.3s ease;
+}
+
+.btn-change-password:hover {
+    
+    background-color: #f39c12;
+}
+
+.btn-cancel {
+    background-color: #ff0606;
+}
+
+.btn-cancel:hover {
+    background-color: #8e1313;
+}
+
+/* Phần thay đổi mật khẩu */
+.change-password {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.change-password h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Ẩn/hiện phần thay đổi mật khẩu */
+#changePasswordSection {
+    display: none;
+}
+
+/* Hiệu ứng khi hiển thị/ẩn phần thay đổi mật khẩu */
+.show-change-password {
+    cursor: pointer;
+    font-size: 1.2em;
+    color: #3498db;
+    text-decoration: underline;
+}

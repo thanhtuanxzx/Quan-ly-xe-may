@@ -28,3 +28,14 @@ document.querySelectorAll('.ad-tager').forEach(item => {
         this.classList.remove('active'); // Loại bỏ lớp active khi chuột rời khỏi
     });
 });
+
+document.getElementById('showChangePasswordBtn').addEventListener('click', function() {
+    document.getElementById('userInfoSection').style.display = 'none'; // Ẩn thông tin cá nhân
+    document.getElementById('changePasswordSection').style.display = 'block'; // Hiển thị form thay đổi mật khẩu
+});
+
+// Ẩn form thay đổi mật khẩu khi nhấn nút "Hủy"
+document.getElementById('cancelChangePasswordBtn').addEventListener('click', function() {
+    document.getElementById('userInfoSection').style.display = 'block'; // Hiển thị lại thông tin cá nhân
+    document.getElementById('changePasswordSection').style.display = 'none'; // Ẩn form thay đổi mật khẩu
+});

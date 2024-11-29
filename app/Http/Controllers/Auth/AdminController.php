@@ -165,4 +165,62 @@ class AdminController extends Controller
         // Chuyển hướng về trang danh sách xe và thông báo thành công
         return redirect()->route('admin.list_motor')->with('success', 'Thông tin xe đã được thêm thành công!');
     }
+    public function accountAdmin()
+    {
+        return view('admin.account_admin');
+    }
+
+    public function addCustomer()
+    {
+        return view('admin.add_customer');
+    }
+
+   
+
+    public function customerLookup()
+    {
+        return view('admin.customer_lookup');
+    }
+
+
+
+    public function editCustomer()
+    {
+        return view('admin.edit_customer');
+    }
+
+
+
+    public function historyCustomer()
+    {
+        return view('admin.history_customer');
+    }
+
+    public function listCustomer()
+    {
+        return view('admin.list_customer');
+    }
+
+
+    public function statistical()
+    {
+        return view('admin.statistical');
+    }
+
+    public function tradeMaintenance()
+    {
+        return view('admin.trade_maintenance');
+    }
+
+    public function tradeMotor()
+    {
+        return view('admin.trade_motor');
+    }
+
+    public function transactionList()
+    {
+        return view('admin.transaction_list');
+    }
+
+
 }

@@ -11,12 +11,13 @@
     font-weight: bold;
 }
 /* Định dạng cho các trường input */
-.ad-form-group input ,.ad-form-group select{
+.ad-form-group input ,.ad-form-group select, .ad-form-group textarea {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    margin: 5px;
+    margin: 5px 0px;
+    resize: none;
 }
 
 /* Định dạng cho các nút submit */
@@ -56,7 +57,7 @@
 .ad-add-vehicle-container form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
 }
 
 .ad-form-group label {
@@ -89,3 +90,4 @@
 .ad-btn-close:hover {
     background-color: #8e1313;
 }
+

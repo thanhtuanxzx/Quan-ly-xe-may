@@ -13,7 +13,7 @@
 }
 
 .ad-detail-group {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .ad-detail-group label {
@@ -86,4 +86,14 @@
 
 .ad-btn-edit:hover {
     background-color: #e67e22;
+}
+
+.ad-btn-delete {
+    background-color: #ff0606;
+    color: white;
+}
+
+
+.ad-btn-delete:hover {
+    background-color: #8e1313;
 }
