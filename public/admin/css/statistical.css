@@ -15,3 +15,22 @@ canvas {
     width: 100% !important;
     height: 400px;
 }
+
+/* Cải thiện giao diện cho label */
+.ad-label {
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+    width: 120px;  /* Đảm bảo label chiếm không gian đồng đều */
+    margin-bottom: 10px;
+}
+
+/* Cải thiện giao diện cho các select */
+.ad-select {
+    font-size: 14px;
+    padding: 8px;
+    width: 100px;  /* Chiều rộng cho select */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}

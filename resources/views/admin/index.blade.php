@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<div class="ad-sidebar">
+    <div class="ad-sidebar">
         <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
@@ -27,9 +27,26 @@
                     <li><a class="ad-mini" href="list-customer">Danh sách thông tin chủ xe</a></li>
                 </ul>
             </li>
-            <li><a class="ad-tager" href="transaction-list"><i class="fa-solid fa-store"></i> Mua Bán</a></li> 
+            <li>
+                <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu3', this)"><i class="fa-solid fa-store"></i> Quản lý giao dịch</a>
+                <ul class="ad-submenu" id="submenu3">
+                    <li><a class="ad-mini" href="transaction-list">Mua bán</a></li>
+                    <li><a class="ad-mini" href="trade-maintenance">Bảo trì/bảo dưỡng</a></li>
+                </ul>
+            </li>
+          
             <li><a class="ad-tager" href="statistical"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
-            <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li>
+            <li><a class="ad-tager" href=""><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
+            <li>
+                <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu4', this)"><i class="fa-solid fa-store"></i> Quản lý Admin</a>
+                <ul class="ad-submenu" id="submenu4">
+                    <li><a class="ad-mini" href="add-admin">Tạo mới tài khoản nhân viên</a></li>
+                    <li><a class="ad-mini" href="list-admin">Danh sách nhân viên</a></li>
+                    <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li>
+                </ul>
+            </li>
+            <!-- <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li> -->
+        
             <li>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf

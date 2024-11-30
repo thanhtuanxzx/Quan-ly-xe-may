@@ -6,7 +6,7 @@
     <title>Quản Lý Xe Máy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css\slidebar.css">
-    <link rel="stylesheet" href="css\history.css">
+    <link rel="stylesheet" href="css/contact.css">
 </head>
 <body>
 
@@ -60,71 +60,39 @@
     </div>
 
     <div class="ad-content">
-        <h1>Danh sách giao dịch</h1>
-        <input type="text" id="searchInput">
-        <div class="ad-buttons">
+        <h2>Danh Sách Yêu Cầu Tư Vấn</h2>
+        <div class="consultation-list">
+            <ul id="consultationMessages">
+                <li class="message">
+                    <p class="name">Nguyễn Văn A</p>
+                    <p class="email">Số điện thoại: 0123456789</p>
+                    <p class="message-text">Dịch vụ: </p>
+                    <p class="message-text">Ghi chú: </p>
+                    <p class="message-text">Ngày: </p>
+                    <button class="contacted-btn">Xóa</button>
+                </li>
+                <li class="message">
+                    <p class="name">Trần Thị B</p>
+                    <p class="email">Số điện thoại: 0123456789</p>
+                    <p class="message-text">Dịch vụ: </p>
+                    <p class="message-text">Ghi chú: </p>
+                    <p class="message-text">Ngày: </p>
+                    <button class="contacted-btn">Xóa</button>
+                </li>
+                <li class="message">
+                    <p class="name">Lê Văn C</p>
+                    <p class="email">Số điện thoại: 0123456789</p>
+                    <p class="message-text">Dịch vụ: </p>
+                    <p class="message-text">Ghi chú: </p>
+                    <p class="message-text">Ngày: </p>
+                    <button class="contacted-btn">Xóa</button>
+                </li>
+            </ul>
         </div>
-        <table class="ad-maintenance-table">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Họ tên khách hàng</th>
-                    <th>Số điện thoại</th>
-                    <th>Biển số</th>
-                    <th>Loại</th>
-                    <th>Ngày</th>
-                    <!-- <th>Hạng Mục</th> -->
-                    <th>Chi Phí (VNĐ)</th>
-                    <th>Ghi Chú</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <!-- Mẫu dữ liệu -->
-                @foreach($giaodich as $gd)
-                <tr>
-                    <td>{{$gd->id_giao_dich}}</td>
-                    <td>{{$gd->nguoiMua->ho_ten}}</td>
-                    <td>{{$gd->nguoiMua->so_dien_thoai}}</td>
-                    <td>{{$gd->xeMay->bien_so}}</td>
-                    <td>{{$gd->loai_giao_dich}}</td>
-                    <td>{{$gd->ngay_giao_dich}}</td>
-                
-                    <td>{{$gd->gia_ban}}</td>
-                    <td>{{$gd->ghi_chu}}</td>
-                </tr>
-               
-                
-                @endforeach
-            </tbody>
-        </table>
+        
     </div>
     
-    <script>
-        function filterTable(tableBodyId, query) {
-            const rows = document.querySelectorAll(`#${tableBodyId} tr`);
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let match = false;
-                cells.forEach(cell => {
-                    if (cell.textContent.toLowerCase().includes(query.toLowerCase())) {
-                        match = true;
-                    }
-                });
-                row.style.display = match ? '' : 'none';
-            });
-        }
-
-        // Áp dụng cho nhiều ô tìm kiếm và bảng khác nhau
-        function setUpFilter(searchInputId, tableBodyId) {
-            document.getElementById(searchInputId).addEventListener('input', function() {
-                filterTable(tableBodyId, this.value);
-            });
-        }
-
-        // Sử dụng hàm này cho nhiều bảng và ô tìm kiếm khác nhau
-        setUpFilter('searchInput', 'table-body');
-        setUpFilter('searchInput2', 'table-body2');
-    </script>
     <script src="js\slidebar.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,62 @@
+.ad-content h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.consultation-list {
+    padding: 0;
+    margin: 0;
+}
+
+#consultationMessages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.message {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message p {
+    margin: 5px 0;
+}
+
+.message .name {
+    font-weight: bold;
+    color: #3498db;
+}
+
+.message .email {
+    font-style: italic;
+    color: #555;
+}
+
+.message .message-text {
+    color: #333;
+    font-size: 14px;
+}
+
+.contacted-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.contacted-btn:hover {
+    background-color: #c0392b;
+}
+
+.contacted-btn:focus {
+    outline: none;
+}

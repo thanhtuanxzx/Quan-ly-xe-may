@@ -60,71 +60,49 @@
     </div>
 
     <div class="ad-content">
-        <h1>Danh sách giao dịch</h1>
-        <input type="text" id="searchInput">
+        <h1 class="ad-title">Danh sách Admin</h1>
         <div class="ad-buttons">
+            <button class="ad-btn-add" onclick="window.location.href='trade_maintenance.html';">Thêm</button>
         </div>
         <table class="ad-maintenance-table">
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Họ tên khách hàng</th>
-                    <th>Số điện thoại</th>
-                    <th>Biển số</th>
-                    <th>Loại</th>
-                    <th>Ngày</th>
-                    <!-- <th>Hạng Mục</th> -->
-                    <th>Chi Phí (VNĐ)</th>
-                    <th>Ghi Chú</th>
+                    <th>ID</th>
+                    <th>Họ Tên</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Email</th>
+                    <th>Vai Trò</th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
-            <tbody id="table-body">
-                <!-- Mẫu dữ liệu -->
-                @foreach($giaodich as $gd)
+            <tbody>
+
                 <tr>
-                    <td>{{$gd->id_giao_dich}}</td>
-                    <td>{{$gd->nguoiMua->ho_ten}}</td>
-                    <td>{{$gd->nguoiMua->so_dien_thoai}}</td>
-                    <td>{{$gd->xeMay->bien_so}}</td>
-                    <td>{{$gd->loai_giao_dich}}</td>
-                    <td>{{$gd->ngay_giao_dich}}</td>
-                
-                    <td>{{$gd->gia_ban}}</td>
-                    <td>{{$gd->ghi_chu}}</td>
+                    <td>1</td>
+                    <td>Tuấn Cak</td>
+                    <td>0123456789</td>
+                    <td>tuancak04@gmail.com</td>
+                    <td>Nhân Viên</td>
+                    <td>
+                        <button class="ad-btn-back">Sửa</button>
+                        <button class="ad-btn-del">Xóa</button>
+                    </td>
                 </tr>
-               
-                
-                @endforeach
+                <tr>
+                    <td>2</td>
+                    <td>Tuệ Loz</td>
+                    <td>0321654987</td>
+                    <td>tueloz2004@gmail.com</td>
+                    <td>Nhân Viên</td>
+                    <td>
+                        <button class="ad-btn-back">Sửa</button>
+                        <button class="ad-btn-del">Xóa</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
     
-    <script>
-        function filterTable(tableBodyId, query) {
-            const rows = document.querySelectorAll(`#${tableBodyId} tr`);
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let match = false;
-                cells.forEach(cell => {
-                    if (cell.textContent.toLowerCase().includes(query.toLowerCase())) {
-                        match = true;
-                    }
-                });
-                row.style.display = match ? '' : 'none';
-            });
-        }
-
-        // Áp dụng cho nhiều ô tìm kiếm và bảng khác nhau
-        function setUpFilter(searchInputId, tableBodyId) {
-            document.getElementById(searchInputId).addEventListener('input', function() {
-                filterTable(tableBodyId, this.value);
-            });
-        }
-
-        // Sử dụng hàm này cho nhiều bảng và ô tìm kiếm khác nhau
-        setUpFilter('searchInput', 'table-body');
-        setUpFilter('searchInput2', 'table-body2');
-    </script>
     <script src="js\slidebar.js"></script>
 </body>
 </html>

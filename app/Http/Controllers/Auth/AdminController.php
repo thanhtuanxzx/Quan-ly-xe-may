@@ -326,6 +326,32 @@ class AdminController extends Controller
     
         return redirect()->route('admin.trade.maintenance')->with('success', 'Thông tin xe đã được thêm thành công!');
     }
+    // Hiển thị form thêm admin
+    public function addAD()
+    {
+        return view('admin.add_admin'); // Trả về view form thêm admin
+    }
+
+    // Hiển thị form chỉnh sửa admin
+    public function editAD()
+    {
+      
+
+        return view('admin.edit_admin'); // Trả về view form chỉnh sửa admin
+    }
+
+    // Hiển thị danh sách admin
+    public function listAD()
+    {
+       
+        return view('admin.list_admin'); // Trả về view danh sách admin
+    }
+
+    // Hiển thị thông tin liên hệ
+    public function contact()
+    {
+        return view('admin.contact'); // Trả về view thông tin liên hệ
+    }
    // Minh Tue 
 
 

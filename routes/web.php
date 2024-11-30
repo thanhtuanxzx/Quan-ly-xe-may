@@ -68,4 +68,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/transaction-list', [AdminController::class, 'transactionList'])->name('admin.transaction.list');
     Route::post('/process-form', [AdminController::class, 'processForm'])->name('processForm');
 
+    Route::get('/edit-admin', [AdminController::class, 'editAD'])->name('admin.edit.admin');
+    Route::get('/list-admin', [AdminController::class, 'listAD'])->name('admin.list.admin');
+
+    
+    Route::get('/add-admin', [AdminController::class, 'addAD'])->name('admin.add.admin');
+    Route::get('/contact', [AdminController::class, 'contact'])->name('admin.contact');
 });

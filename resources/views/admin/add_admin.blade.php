@@ -6,11 +6,11 @@
     <title>Quản Lý Xe Máy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css\slidebar.css">
-    <link rel="stylesheet" href="css\history.css">
+    <link rel="stylesheet" href="css\add_motor.css">
 </head>
 <body>
 
-    <div class="ad-sidebar">
+<div class="ad-sidebar">
         <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
@@ -60,71 +60,43 @@
     </div>
 
     <div class="ad-content">
-        <h1>Danh sách giao dịch</h1>
-        <input type="text" id="searchInput">
-        <div class="ad-buttons">
+        <h1 class="ad-title">Thêm Admin</h1>
+
+        <div class="ad-add-vehicle-container">
+            <form action="#" method="POST" enctype="multipart/form-data">
+
+                <div class="ad-form-group">
+                    <label for="add-name">Tên đăng nhập</label>
+                    <input type="text" id="add-name" name="" placeholder="Nhập tên đăng nhập" required>
+                </div>
+
+                <div class="ad-form-group">
+                    <label for="add-name">Họ và tên</label>
+                    <input type="text" id="add-name" name="" placeholder="Nhập họ và tên" required>
+                </div>
+                
+                <div class="ad-form-group">
+                    <label for="add-phone">Số điện thoại</label>
+                    <input type="text" id="add-phone" name="" placeholder="Nhập số điện thoại" required>
+                </div>
+
+                <div class="ad-form-group">
+                    <label for="add-engine">Mật khẩu</label>
+                    <input type="text" id="add-engine" name="" placeholder="Nhập mật khẩu" >
+                </div>
+
+                <div class="ad-form-group">
+                    <input type="hidden" id="add-engine" name="" placeholder="Ẩn nè" >
+                </div>
+
+                <div class="ad-form-group">
+                    <button type="submit" class="ad-btn-submit">Thêm</button>
+                </div>
+            </form>
         </div>
-        <table class="ad-maintenance-table">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Họ tên khách hàng</th>
-                    <th>Số điện thoại</th>
-                    <th>Biển số</th>
-                    <th>Loại</th>
-                    <th>Ngày</th>
-                    <!-- <th>Hạng Mục</th> -->
-                    <th>Chi Phí (VNĐ)</th>
-                    <th>Ghi Chú</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <!-- Mẫu dữ liệu -->
-                @foreach($giaodich as $gd)
-                <tr>
-                    <td>{{$gd->id_giao_dich}}</td>
-                    <td>{{$gd->nguoiMua->ho_ten}}</td>
-                    <td>{{$gd->nguoiMua->so_dien_thoai}}</td>
-                    <td>{{$gd->xeMay->bien_so}}</td>
-                    <td>{{$gd->loai_giao_dich}}</td>
-                    <td>{{$gd->ngay_giao_dich}}</td>
-                
-                    <td>{{$gd->gia_ban}}</td>
-                    <td>{{$gd->ghi_chu}}</td>
-                </tr>
-               
-                
-                @endforeach
-            </tbody>
-        </table>
     </div>
     
-    <script>
-        function filterTable(tableBodyId, query) {
-            const rows = document.querySelectorAll(`#${tableBodyId} tr`);
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let match = false;
-                cells.forEach(cell => {
-                    if (cell.textContent.toLowerCase().includes(query.toLowerCase())) {
-                        match = true;
-                    }
-                });
-                row.style.display = match ? '' : 'none';
-            });
-        }
-
-        // Áp dụng cho nhiều ô tìm kiếm và bảng khác nhau
-        function setUpFilter(searchInputId, tableBodyId) {
-            document.getElementById(searchInputId).addEventListener('input', function() {
-                filterTable(tableBodyId, this.value);
-            });
-        }
-
-        // Sử dụng hàm này cho nhiều bảng và ô tìm kiếm khác nhau
-        setUpFilter('searchInput', 'table-body');
-        setUpFilter('searchInput2', 'table-body2');
-    </script>
+    
     <script src="js\slidebar.js"></script>
 </body>
 </html>

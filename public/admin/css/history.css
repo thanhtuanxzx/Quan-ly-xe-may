@@ -32,7 +32,7 @@
 }
 
 .ad-btn-add, 
-.ad-btn-back {
+.ad-btn-back, .ad-btn-del {
     padding: 10px 20px;
     margin-left: 15px;
     border: none;
@@ -57,4 +57,13 @@
 
 .ad-btn-back:hover {
     background-color: #0056b3;
+}
+
+.ad-btn-del {
+    background-color: #f00e0e;
+    color: white;
+}
+
+.ad-btn-del:hover {
+    background-color: #8b1f1f;
 }

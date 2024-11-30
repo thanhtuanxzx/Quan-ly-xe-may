@@ -1,43 +1,53 @@
-  // Hàm xử lý mở/đóng submenu (mục con) và tô đậm mục lớn khi được chọn
-  function toggleSubmenu(submenuId, target) {
-    const currentSubmenu = document.querySelector('.ad-submenu[style="display: block;"]'); // tìm submenu đang hiển thị
+function toggleSubmenu(submenuId, target) {
+    const currentSubmenu = document.querySelector('.ad-submenu[style="display: block;"]'); 
     const submenu = document.getElementById(submenuId);
 
-    // Nếu có mục con đang hiển thị, ẩn nó đi
-    if (currentSubmenu && currentSubmenu !== submenu) {
-        currentSubmenu.style.display = 'none';
+    if (submenu) {
+        if (currentSubmenu && currentSubmenu !== submenu) {
+            currentSubmenu.style.display = 'none';
+        }
+
+        if (submenu.style.display === "block") {
+            submenu.style.display = "none";
+        } else {
+            submenu.style.display = "block";
+        }
+
+        const allMainItems = document.querySelectorAll('.ad-tager');
+        allMainItems.forEach(item => item.classList.remove('active')); 
+
+        if (target) {
+            target.classList.add('active'); 
+        }
     }
-
-    // Kiểm tra nếu mục con đang được hiển thị thì ẩn nó đi, ngược lại hiển thị
-    if (submenu.style.display === "block") {
-        submenu.style.display = "none";
-    } else {
-        submenu.style.display = "block";
-    }
-
-    // Tô đậm mục lớn khi được chọn
-    const allMainItems = document.querySelectorAll('.ad-tager');
-    allMainItems.forEach(item => item.classList.remove('active')); // Xóa lớp active khỏi tất cả mục lớn
-
-    target.classList.add('active'); // Thêm lớp active vào mục được chọn
 }
 
-// Hàm xử lý khi chuột rời khỏi mục lớn (loại bỏ lớp active)
 document.querySelectorAll('.ad-tager').forEach(item => {
     item.addEventListener('mouseleave', function() {
-        this.classList.remove('active'); // Loại bỏ lớp active khi chuột rời khỏi
+        this.classList.remove('active');
     });
 });
 
-document.getElementById('showChangePasswordBtn').addEventListener('click', function() {
-    document.getElementById('userInfoSection').style.display = 'none'; // Ẩn thông tin cá nhân
-    document.getElementById('changePasswordSection').style.display = 'block'; // Hiển thị form thay đổi mật khẩu
-});
+const showChangePasswordBtn = document.getElementById('showChangePasswordBtn');
+if (showChangePasswordBtn) {
+    showChangePasswordBtn.addEventListener('click', function() {
+        const userInfoSection = document.getElementById('userInfoSection');
+        const changePasswordSection = document.getElementById('changePasswordSection');
+        if (userInfoSection && changePasswordSection) {
+            userInfoSection.style.display = 'none'; 
+            changePasswordSection.style.display = 'block'; 
+        }
+    });
+}
 
-// Ẩn form thay đổi mật khẩu khi nhấn nút "Hủy"
-document.getElementById('cancelChangePasswordBtn').addEventListener('click', function() {
-    document.getElementById('userInfoSection').style.display = 'block'; // Hiển thị lại thông tin cá nhân
-    document.getElementById('changePasswordSection').style.display = 'none'; // Ẩn form thay đổi mật khẩu
-});
-
-
+const cancelChangePasswordBtn = document.getElementById('cancelChangePasswordBtn');
+if (cancelChangePasswordBtn) {
+    cancelChangePasswordBtn.addEventListener('click', function() {
+        const userInfoSection = document.getElementById('userInfoSection');
+        const changePasswordSection = document.getElementById('changePasswordSection');
+        if (userInfoSection && changePasswordSection) {
+            userInfoSection.style.display = 'block'; 
+            changePasswordSection.style.display = 'none'; 
+        }
+    });
+}
