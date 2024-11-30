@@ -190,10 +190,64 @@ class AdminController extends Controller
 
 
 
-    public function editCustomer()
+    public function editCustomer(Request $request)
     {
-        return view('admin.edit_customer');
+    // Lấy ID xe từ query string
+        $id_xe = $request->query('id_xe');
+
+        // Lấy thông tin xe máy
+        $xemay = XeMay::with('chuXe')->findOrFail($id_xe);
+
+        // Lấy thông tin chủ xe từ xe máy
+        $chuxe = $xemay->chuXe;
+
+        return view('admin.edit_customer', compact('xemay', 'chuxe'));
     }
+
+    public function updateCustomer(Request $request)
+{
+    // Kiểm tra và lấy dữ liệu từ request
+    $validated = $request->validate([
+        'id_xe'=> 'required|string',
+        'ho_ten' => 'required|string|max:255',
+        'so_dien_thoai' => 'required|string|max:20',
+        'dia_chi' => 'required|string|max:255',
+        'bien_so' => 'required|string|max:20',
+        'mau_sac' => 'required|string|max:50',
+        'dong_xe' => 'nullable|string|max:255',
+        'ten_xe' => 'nullable|string|max:255',
+        'loai_xe' => 'required|integer',
+    ]);
+
+    // Cập nhật dữ liệu vào bảng `chu_xe` và `xe_may`
+    $chuxe = ChuXe::where('id_xe', $request->id_xe)->first();
+    if (!$chuxe) {
+        return redirect()->back()->withErrors(['message' => 'Chủ xe không tồn tại.']);
+    }
+
+    // Cập nhật thông tin chủ xe
+    $chuxe->update([
+        'ho_ten' => $validated['ho_ten'],
+        'so_dien_thoai' => $validated['so_dien_thoai'],
+        'dia_chi' => $validated['dia_chi'],
+    ]);
+
+    // Cập nhật thông tin xe
+    $xemay = XeMay::where('id_xe', $request->id_xe)->first();
+    if ($xemay) {
+        $xemay->update([
+            'bien_so' => $validated['bien_so'],
+            'loai_xe' => $validated['loai_xe'],
+            'ten_xe' => $validated['ten_xe'],
+            
+            'mau_sac' => $validated['mau_sac'],
+            'dong_xe'=> $validated['dong_xe']
+        ]);
+    }
+
+    return redirect()->route('admin.list.customer')->with('success', 'Cập nhật thành công!');
+}
+
 
 
 
@@ -295,7 +349,7 @@ class AdminController extends Controller
     {
         // Xác thực dữ liệu
         $validatedData = $request->validate([
-            'id_xe'        => 'required|exists:xe_may,id_xe', 
+            'id_xe'        => 'required|exists:xe_may,id_xe', // ID xe cần nhân bản
             'ho_ten'       => 'required|string|max:255',
             'so_cmnd'      => 'required|string|max:12',
             'so_dien_thoai'=> 'required|string|max:11',
@@ -305,25 +359,38 @@ class AdminController extends Controller
             'so_may'       => 'nullable|string|max:50',
         ]);
 
-        // Thêm chủ xe
+        // Lấy dữ liệu xe gốc theo `id_xe`
+        $xeGoc = XeMay::findOrFail($validatedData['id_xe']);
+
+        // Tạo bản ghi mới cho xe
+        $xeMoi = XeMay::create([
+            'hinh_anh' => $xeGoc->hinh_anh,
+            'bien_so'  => $validatedData['bien_so'] ?? $xeGoc->bien_so,
+            'dong_xe'  => $xeGoc->dong_xe,
+            'ten_xe'   => $xeGoc->ten_xe,
+            'gia'      => $xeGoc->gia,
+            'mau_sac'  => $xeGoc->mau_sac,
+            'so_khung' => $validatedData['so_khung'] ?? $xeGoc->so_khung,
+            'so_may'   => $validatedData['so_may'] ?? $xeGoc->so_may,
+            'loai_xe'  => $xeGoc->loai_xe,
+            'tinh_nang' => $xeGoc->tinh_nang,
+            'cong_nghe' => $xeGoc->cong_nghe,
+            'thiet_ke'  => $xeGoc->thiet_ke,
+            'tienich_antoan' => $xeGoc->tienich_antoan,
+        ]);
+
+        // Thêm chủ xe mới gắn với xe vừa tạo
         $chuXe = new ChuXe();
         $chuXe->ho_ten = $validatedData['ho_ten'];
         $chuXe->so_cmnd = $validatedData['so_cmnd'];
         $chuXe->so_dien_thoai = $validatedData['so_dien_thoai'];
         $chuXe->dia_chi = $validatedData['dia_chi'];
-        $chuXe->id_xe = $validatedData['id_xe'];
+        $chuXe->id_xe = $xeMoi->id_xe; // Gắn với xe mới
         $chuXe->save();
 
-        // Cập nhật thông tin xe
-        $xeMay = XeMay::findOrFail($validatedData['id_xe']);
-        $xeMay->update([
-            'bien_so'  => $validatedData['bien_so'],
-            'so_khung' => $validatedData['so_khung'],
-            'so_may'   => $validatedData['so_may'],
-        ]);
-
-        return redirect()->route('admin.list_motor')->with('success', 'Thêm chủ xe và cập nhật thông tin xe thành công!');
+        return redirect()->route('admin.list_motor')->with('success', 'Thêm xe mới và chủ xe thành công!');
     }
+
     public function searchcustomer(Request $request)
     {
         // Lấy giá trị từ form

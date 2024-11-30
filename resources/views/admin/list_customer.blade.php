@@ -82,7 +82,7 @@
                         <p><strong>Màu sắc: </strong>{{$chuxe->xeMay->mau_sac}}</p>
                     </div>
                     <div class="ad-result-actions">
-                        <button class="ad-btn-edit" onclick="window.location.href='edit-customer';">Chỉnh Sửa</button>
+                        <button class="ad-btn-edit" onclick="window.location.href='edit-customer?id_xe={{$chuxe->xeMay->id_xe}}';">Chỉnh Sửa</button>
                         <button class="ad-btn-delete" onclick="window.location.href='delete?id_xe={{ $chuxe->id_xe }}'">Xóa</button>
                     </div>
                 </div>

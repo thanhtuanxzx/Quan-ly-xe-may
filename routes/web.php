@@ -57,6 +57,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/search-vehicle', [AdminController::class, 'searchcustomer'])->name('vehicle.search');
     Route::post('/chu-xe', [AdminController::class, 'addnguoidung'])->name('admin.addnguoidung');
     Route::get('/edit-customer', [AdminController::class, 'editCustomer'])->name('admin.edit.customer');
+    Route::post('/update-customer', [AdminController::class, 'updateCustomer'])->name('update-customer');
     Route::get('/history-customer', [AdminController::class, 'historyCustomer'])->name('admin.history.customer');
 
     Route::get('list-customer', [ChuXeController::class, 'listCustomer'])->name('admin.list.customer');

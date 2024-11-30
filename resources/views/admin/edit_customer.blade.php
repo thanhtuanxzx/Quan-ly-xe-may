@@ -46,64 +46,63 @@
         <h1 class="ad-title">Chỉnh Sửa Thông Tin Chủ Xe</h1>
 
         <div class="ad-add-vehicle-container">
-            <form action="#" method="POST" enctype="multipart/form-data">
-                
-                <div class="ad-form-group">
-                    <label for="add-name">Họ và tên</label>
-                    <input type="text" id="add-name" name="" placeholder="Nhập họ và tên" required>
-                </div>
-            
-                <div class="ad-form-group">
-                    <label for="add-phone">Số điện thoại</label>
-                    <input type="text" id="add-phone" name="" placeholder="Nhập số điện thoại" required>
-                </div>
-            
-                <div class="ad-form-group">
-                    <label for="add-address">Địa chỉ</label>
-                    <input type="text" id="add-address" name="" placeholder="Nhập địa chỉ" required>
-                </div>
-            
-                <div class="ad-form-group">
-                    <label for="add-plate">Biển số</label>
-                    <input type="text" id="add-plate" name="" placeholder="Nhập biển số" required>
-                </div>
-            
-                <div class="ad-form-group">
-                    <label for="add-type">Loại Xe</label>
-                    <select id="add-type" name="" class="ad-select" required>
-                        <option value="">Chọn loại xe</option>
-                        <option value="tay-ga">Tay ga</option>
-                        <option value="xe-so">Xe số</option>
-                        <option value="tay-con">Xe tay côn</option>
-                    </select>
-                </div>
-            
-                <div class="ad-form-group">
-                    <label for="add-model">Tên Xe</label>
-                    <input type="text" id="add-model" name="" placeholder="Nhập tên xe" required>
-                </div>
-            
-                <div class="ad-form-group">
-                    <label for="add-color">Màu Sắc</label>
-                    <input type="text" id="add-color" name="" placeholder="Nhập màu sắc xe" required>
-                </div>
-            
-                <div class="ad-form-group">
-                    <label for="spare-field-1">Dự Phòng 1</label>
-                    <input type="text" id="spare-field-1" name="" class="ad-input" placeholder="Dự phòng">
-                </div>
-            
-                <div class="ad-form-group">
-                    <label for="spare-field-2">Dự Phòng 2</label>
-                    <input type="text" id="spare-field-2" name="" class="ad-input" placeholder="Dự phòng">
-                </div>
-            
-                <div class="ad-form-group ad-btn-form">
-                    <button type="submit" class="ad-btn-submit">Lưu</button>
-                    <button type="button" class="ad-btn-close">Hủy</button>
-                </div>
-            
-            </form>
+        <form action="{{ route('update-customer') }}" method="POST" enctype="multipart/form-data">
+            @csrf <!-- Bảo mật CSRF token -->
+            <input type="text" value="{{$chuxe->id_xe}}" name ="id_xe">
+            <div class="ad-form-group">
+                <label for="add-name">Họ và tên</label>
+                <input type="text" id="add-name" name="ho_ten" placeholder="Nhập họ và tên" required>
+            </div>
+
+            <div class="ad-form-group">
+                <label for="add-phone">Số điện thoại</label>
+                <input type="text" id="add-phone" name="so_dien_thoai" placeholder="Nhập số điện thoại" required>
+            </div>
+
+            <div class="ad-form-group">
+                <label for="add-address">Địa chỉ</label>
+                <input type="text" id="add-address" name="dia_chi" placeholder="Nhập địa chỉ" required>
+            </div>
+
+            <div class="ad-form-group">
+                <label for="add-plate">Biển số</label>
+                <input type="text" id="add-plate" name="bien_so" placeholder="Nhập biển số" required>
+            </div>
+
+            <div class="ad-form-group">
+                <label for="add-type">Loại Xe</label>
+                <select id="add-type" name="loai_xe" class="ad-select" required>
+                    <option value="">Chọn loại xe</option>
+                    <option value="2">Tay ga</option>
+                    <option value="1">Xe số</option>
+                    <option value="3">Xe tay côn</option>
+                    <option value="4">Xe điện</option>
+                </select>
+            </div>
+
+            <div class="ad-form-group">
+                <label for="add-model">Tên Xe</label>
+                <input type="text" id="add-model" name="ten_xe" placeholder="Nhập tên xe" required>
+            </div>
+
+            <div class="ad-form-group">
+                <label for="add-color">Màu Sắc</label>
+                <input type="text" id="add-color" name="mau_sac" placeholder="Nhập màu sắc xe" required>
+            </div> 
+
+             <div class="ad-form-group">
+                <label for="spare-field-1">Dòng xe</label>
+                <input type="text" id="spare-field-1" name="dong_xe" class="ad-input" placeholder="Nhập dòng xe">
+            </div>
+
+           
+
+            <div class="ad-form-group ad-btn-form">
+                <button type="submit" class="ad-btn-submit">Lưu</button>
+                <button type="button" class="ad-btn-close" onclick="window.history.back()">Hủy</button>
+            </div>
+        </form>
+
         </div>
     </div>
     
