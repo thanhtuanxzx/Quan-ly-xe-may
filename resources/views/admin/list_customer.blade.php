@@ -10,63 +10,85 @@
 </head>
 <body>
 
-    <div class="ad-sidebar">
-        <a class="ad-index" href="index.html"><h2>QUẢN LÝ XE MÁY</h2></a>
+<div class="ad-sidebar">
+        <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu1', this)"><i class="fa-solid fa-motorcycle"></i> Quản lý thông tin xe</a>
                 <ul class="ad-submenu" id="submenu1">
-                    <li><a class="ad-mini" href="vehicle_lookup.html">Tra cứu xe</a></li>
-                    <li><a class="ad-mini" href="add_motor.html">Thêm thông tin xe</a></li>
-                    <li><a class="ad-mini" href="list_motor.html">Danh sách thông tin xe</a></li>
+                    <li><a class="ad-mini" href="vehicle-lookup">Tra cứu xe</a></li>
+                    <li><a class="ad-mini" href="add-motor">Thêm thông tin xe</a></li>
+                    <li><a class="ad-mini" href="list-motor">Danh sách thông tin xe</a></li>
                 </ul>
             </li>
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu2', this)"><i class="fa-solid fa-address-book"></i> Quản lý chủ xe</a>
                 <ul class="ad-submenu" id="submenu2">
-                    <li><a class="ad-mini" href="customer_lookup.html">Tra cứu chủ xe</a></li>
-                    <li><a class="ad-mini" href="list_customer.html">Danh sách thông tin chủ xe</a></li>
+                    <li><a class="ad-mini" href="search-vehicle">Tra cứu chủ xe</a></li>
+                    <li><a class="ad-mini" href="list-customer">Danh sách thông tin chủ xe</a></li>
                 </ul>
             </li>
-            <li><a class="ad-tager" href="transaction_list.html"><i class="fa-solid fa-store"></i> Mua Bán</a></li> 
-            <li><a class="ad-tager" href="statistical.html"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
-            <li><a class="ad-tager" href="account_admin.html"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li>
-            <li><a class="ad-tager" href=""><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
+            <li><a class="ad-tager" href="transaction-list"><i class="fa-solid fa-store"></i> Mua Bán</a></li> 
+            <li><a class="ad-tager" href="statistical"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
+            <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li>
+            <li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a class="ad-tager" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+            </a>
+            </li>
         </ul>
     </div>
 
     <div class="ad-content">
         <h1 class="ad-title">Danh sách thông tin chủ xe</h1>
         <div class="ad-result-container">
-
+        @foreach($Chuxe as $chuxe)
+   
             <div class="ad-result-item">
                 <div class="ad-result-info">
                     <div class="ad-result-text">
-                        <p><strong>Biển số: </strong> 71S91723</p>
-                        <p><strong>Họ tên khách hàng: </strong>Nguyễn Văn A</p>
-                        <p><strong>Số điện thoại: </strong>0123456789</p>
-                        <p><strong>Địa chỉ: </strong>An Khánh, Ninh Kiều, Cần Thơ</p>
+                        <p><strong>Biển số: </strong> {{$chuxe->xeMay->bien_so}}</p>
+                        <p><strong>Họ tên khách hàng: </strong>{{ $chuxe->ho_ten }}</p>
+                        <p><strong>Số điện thoại: </strong>{{ $chuxe->so_dien_thoai }}</p>
+                        <p><strong>Địa chỉ: </strong>{{ $chuxe->dia_chi }}</p>
                     </div>
                     <div class="ad-result-actions">
-                        <button class="ad-btn-view" onclick="window.location.href='trade_maintenance.html';">Tạo giao dịch</button>
-                        <button class="ad-btn-edit" onclick="window.location.href='history_customer.html';">Lịch sử</button>
+                        <button class="ad-btn-view" onclick="window.location.href='trade-maintenance';">Tạo giao dịch</button>
+                        <button class="ad-btn-edit" onclick="window.location.href='history-customer?id_chu_xe={{ $chuxe->id_chu_xe }}';">Lịch sử</button>
                     </div>
                 </div>
                 
                 <div class="ad-result-info">
                     <div class="ad-result-text">
-                        <p><strong>Loại xe: </strong>Tay ga</p>
-                        <p><strong>Tên xe: </strong>SH350i</p>
-                        <p><strong>Dòng xe:</strong> Phiên Bản Thể Thao</p>
-                        <p><strong>Màu sắc: </strong>Xám đen</p>
+                    <p><strong>Loại xe: </strong>
+                                @if($chuxe->xeMay->loai_xe == 1)
+                                    Xe số
+                                @elseif($chuxe->xeMay->loai_xe == 2)
+                                    Tay ga
+                                @elseif($chuxe->xeMay->loai_xe == 3)
+                                    Xe tay côn
+                                @elseif($chuxe->xeMay->loai_xe == 4)
+                                    Xe điện
+                                @else
+                                    Không xác định
+                                @endif  
+                            </p>
+
+                        <p><strong>Tên xe: </strong>{{$chuxe->xeMay->ten_xe}}</p>
+                        <p><strong>Dòng xe:</strong> {{$chuxe->xeMay->dong_xe}}</p>
+                        <p><strong>Màu sắc: </strong>{{$chuxe->xeMay->mau_sac}}</p>
                     </div>
                     <div class="ad-result-actions">
-                        <button class="ad-btn-edit" onclick="window.location.href='edit_customer.html';">Chỉnh Sửa</button>
-                        <button class="ad-btn-delete">Xóa</button>
+                        <button class="ad-btn-edit" onclick="window.location.href='edit-customer';">Chỉnh Sửa</button>
+                        <button class="ad-btn-delete" onclick="window.location.href='delete?id_xe={{ $chuxe->id_xe }}'">Xóa</button>
                     </div>
                 </div>
             </div>
-
+            
+            @endforeach
         </div>
     </div>
     

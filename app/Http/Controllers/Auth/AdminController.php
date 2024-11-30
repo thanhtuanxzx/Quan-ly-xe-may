@@ -5,8 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\XeMay;
+use App\Models\ChuXe;
+use App\Models\GiaoDich;
+use Illuminate\Support\Facades\Log;
+
 class AdminController extends Controller
 {
+
+
     public function addMotor()
     {
         return view('admin.add_motor');
@@ -147,7 +153,7 @@ class AdminController extends Controller
         // Xác thực dữ liệu
         $validatedData = $request->validate([
             'dong_xe'=>'required|string|max:255',
-            'bien_so'=>'string|max:15',
+            'bien_so'=>'nullable|string|max:15',
             'loai_xe' => 'required|integer',
             'ten_xe' => 'required|string|max:255',
             'mau_sac' => 'required|string|max:255',
@@ -170,10 +176,10 @@ class AdminController extends Controller
         return view('admin.account_admin');
     }
 
-    public function addCustomer()
-    {
-        return view('admin.add_customer');
-    }
+    // public function addCustomer()
+    // {
+    //     return view('admin.add_customer');
+    // }
 
    
 
@@ -191,15 +197,16 @@ class AdminController extends Controller
 
 
 
-    public function historyCustomer()
+    public function historyCustomer(Request $request)
     {
-        return view('admin.history_customer');
-    }
-
-    public function listCustomer()
-    {
-        return view('admin.list_customer');
-    }
+        $idChuXe = $request->query('id_chu_xe');
+        $giaodich = GiaoDich::where('id_nguoi_mua', $idChuXe)
+        ->orWhere('id_nguoi_mua', $idChuXe)
+        ->with(['xeMay', 'nguoiBan', 'nguoiMua'])
+        ->get();
+        return view('admin.history_customer', compact('giaodich'));
+    } 
+    
 
 
     public function statistical()
@@ -212,15 +219,202 @@ class AdminController extends Controller
         return view('admin.trade_maintenance');
     }
 
-    public function tradeMotor()
-    {
-        return view('admin.trade_motor');
-    }
+   
 
     public function transactionList()
     {
-        return view('admin.transaction_list');
+        $giaodich = GiaoDich::with(['xeMay', 'nguoiBan', 'nguoiMua'])->get();
+        return view('admin.transaction_list',compact('giaodich'));
     }
+    public function trade(Request $request)
+    {
+        try {
+            // Xác thực dữ liệu đầu vào
+            $validatedData = $request->validate([
+                'ho_ten' => 'required|string|max:255',
+                'so_dien_thoai' => 'required|string|max:11|regex:/^0[0-9]{9,10}$/',
+                'ngay_giao_dich' => 'required|date|before_or_equal:today',
+                'loai_giao_dich' => 'required|string|in:Bảo dưỡng,Sửa chữa',
+                'ghi_chu' => 'required|string|max:255',
+                'gia_ban' => 'required|numeric',
+                'ten_xe' => 'string|max:255',
+                'bien_so' => 'required|string|max:15',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
+    
+        // Kiểm tra biển số trong bảng XeMay
+        $vehicle = XeMay::firstOrCreate(
+            ['bien_so' => $validatedData['bien_so']], // Điều kiện tìm xe
+            ['ten_xe' => $validatedData['ten_xe']]  // Nếu không có, tạo xe mới
+        );
+    
+        // Kiểm tra chủ xe theo số điện thoại
+        $owner = ChuXe::firstOrCreate(
+            ['so_dien_thoai' => $validatedData['so_dien_thoai']], // Điều kiện tìm chủ xe
+            [
+                'ho_ten' => $validatedData['ho_ten'],
+                'id_xe' => $vehicle->id_xe  // Gắn id_xe vào chủ xe
+            ]
+        );
+    
+        // Tạo giao dịch
+        GiaoDich::create([
+            'id_xe' => $vehicle->id_xe,  // ID xe
+            'ngay_giao_dich' => $validatedData['ngay_giao_dich'],
+            'gia_ban' => $validatedData['gia_ban'],
+            'ghi_chu' => $validatedData['ghi_chu'],
+            'loai_giao_dich' => $validatedData['loai_giao_dich'],
+            'id_nguoi_ban' => auth()->id(),
+            'id_nguoi_mua' => $owner->id_chu_xe,  // ID chủ xe mua
+        ]);
+    
+        return redirect()->route('admin.trade.maintenance')->with('success', 'Thông tin xe đã được thêm thành công!');
+    }
+   // Minh Tue 
 
 
-}
+
+    // public function accountAdmin()
+    // {
+    //     // Đổi tên view cho đúng với file account_admin.blade.php
+    //     return view('admin.account_admin'); 
+    // }
+
+    public function addCustomer(Request $request)
+    {
+        $idXe = $request->query('id_xe');
+
+        // Tìm sản phẩm bằng Model
+        $sanPham = XeMay::find($idXe);
+    
+        return view('admin.add_customer', ['sanPham' => $sanPham]);
+    }
+    public function addnguoidung(Request $request)
+    {
+        // Xác thực dữ liệu
+        $validatedData = $request->validate([
+            'id_xe'        => 'required|exists:xe_may,id_xe', 
+            'ho_ten'       => 'required|string|max:255',
+            'so_cmnd'      => 'required|string|max:12',
+            'so_dien_thoai'=> 'required|string|max:11',
+            'dia_chi'      => 'required|string',
+            'bien_so'      => 'nullable|string|max:15',
+            'so_khung'     => 'nullable|string|max:50',
+            'so_may'       => 'nullable|string|max:50',
+        ]);
+
+        // Thêm chủ xe
+        $chuXe = new ChuXe();
+        $chuXe->ho_ten = $validatedData['ho_ten'];
+        $chuXe->so_cmnd = $validatedData['so_cmnd'];
+        $chuXe->so_dien_thoai = $validatedData['so_dien_thoai'];
+        $chuXe->dia_chi = $validatedData['dia_chi'];
+        $chuXe->id_xe = $validatedData['id_xe'];
+        $chuXe->save();
+
+        // Cập nhật thông tin xe
+        $xeMay = XeMay::findOrFail($validatedData['id_xe']);
+        $xeMay->update([
+            'bien_so'  => $validatedData['bien_so'],
+            'so_khung' => $validatedData['so_khung'],
+            'so_may'   => $validatedData['so_may'],
+        ]);
+
+        return redirect()->route('admin.list_motor')->with('success', 'Thêm chủ xe và cập nhật thông tin xe thành công!');
+    }
+    public function searchcustomer(Request $request)
+    {
+        // Lấy giá trị từ form
+        $dongxe = $request->input('dongxe');  // Biển số xe
+        $phone = $request->input('phone');    // Số điện thoại khách hàng
+
+        // Xây dựng query tìm kiếm cho bảng xe_may
+        $query = XeMay::query();
+
+        // Tìm kiếm theo biển số xe (bảng xe_may)
+        if ($dongxe) {
+            $query->where('bien_so', 'LIKE', '%' . $dongxe . '%');
+        }
+
+        // Tìm kiếm theo số điện thoại của khách hàng (bảng chu_xe)
+        if ($phone) {
+            $query->whereHas('chuXe', function ($query) use ($phone) {
+                $query->where('so_dien_thoai', 'LIKE', '%' . $phone . '%');
+            });
+        }
+
+        // Thực hiện eager loading quan hệ chuXe (lấy thông tin chủ xe cùng lúc)
+        $vehicles = $query->with('chuXe')->get();  // eager load dữ liệu từ bảng chu_x
+// Trả về kết quả tìm kiếm ra view
+        return view('admin.customer_lookup', compact('vehicles'));
+    }
+    public function tradeMotor(Request $request)
+    {
+$idXe = $request->query('id_xe');
+
+        // Tìm sản phẩm bằng Model
+        $sanPham = XeMay::find($idXe);
+    
+        return view('admin.trade_motor', ['sanPham' => $sanPham]);
+    }
+    public function processForm(Request $request)
+    {
+        try {
+            // Kiểm tra biển số xe xem đã tồn tại chưa
+            $vehiclePlate = $request->input('update_plate');
+            if (XeMay::where('bien_so', $vehiclePlate)->exists()) {
+                return redirect()->back()->withErrors(['update_plate' => 'Biển số xe này đã tồn tại!']);
+            }
+
+            // Validate all input data
+            $validatedData = $request->validate([
+                'vehicle_id' => 'required|exists:xe_may,id_xe',
+                'owner_name' => 'required|string|max:255',
+                'owner_phone' => 'required|string|max:11|regex:/^[0-9]+$/',
+                'owner_cmnd' => 'required|string|max:12|regex:/^[0-9]+$/',
+                'owner_address' => 'nullable|string|max:500',
+                'update_plate' => 'required|string|max:15',  // Đã kiểm tra unique ở trên
+                'vehicle_price' => 'required|numeric|min:0',
+                'transaction_date' => 'required|date',
+                'transaction_type' => 'required|in:Mua xe,Bảo dưỡng,Sửa chữa',
+                'transaction_note' => 'nullable|string|max:500',
+            ]);
+
+            // Thêm chủ xe
+            $chuXe = ChuXe::create([
+                'ho_ten' => $validatedData['owner_name'],
+                'so_dien_thoai' => $validatedData['owner_phone'],
+                'dia_chi' => $validatedData['owner_address'],
+                'so_cmnd' => $validatedData['owner_cmnd'],
+                
+                'id_xe' => $validatedData['vehicle_id'],
+            ]);
+
+            // Cập nhật biển số xe
+            $xe = XeMay::findOrFail($validatedData['vehicle_id']);
+            $xe->update([
+                'bien_so' => $validatedData['update_plate'],
+            ]);
+
+            // Thêm giao dịch
+            GiaoDich::create([
+                'id_xe' => $validatedData['vehicle_id'],
+                'ngay_giao_dich' => $validatedData['transaction_date'],
+                'gia_ban' => $validatedData['vehicle_price'],
+                'loai_giao_dich' => $validatedData['transaction_type'],
+                'ghi_chu' => $validatedData['transaction_note'],
+                'id_nguoi_ban' => auth()->check() ? auth()->id() : 1, // Nếu chưa đăng nhập, dùng ID mặc định là 1
+                'id_nguoi_mua' => $chuXe->id_chu_xe,
+            ]);
+
+            // Redirect back with success message
+            return redirect()->route('admin.list_motor')->with('success', 'Giao dịch đã được tạo thành công!');
+            
+        } catch (\Exception $e) {
+            // Catch any unexpected errors and redirect back with error message
+return redirect()->back()->withErrors('Đã xảy ra lỗi: ' . $e->getMessage());
+        }
+    }
+}     

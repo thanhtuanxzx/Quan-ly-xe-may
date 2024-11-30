@@ -10,8 +10,8 @@
 </head>
 <body>
 
-    <div class="ad-sidebar">
-        <a class="ad-index" href="index.html"><h2>QUẢN LÝ XE MÁY</h2></a>
+<div class="ad-sidebar">
+        <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu1', this)"><i class="fa-solid fa-motorcycle"></i> Quản lý thông tin xe</a>
@@ -24,18 +24,13 @@
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu2', this)"><i class="fa-solid fa-address-book"></i> Quản lý chủ xe</a>
                 <ul class="ad-submenu" id="submenu2">
-                    <li><a class="ad-mini" href="#">Tra cứu chủ xe</a></li>
-                    <li><a class="ad-mini" href="#">Thêm thông tin chủ xe</a></li>
+                    <li><a class="ad-mini" href="search-vehicle">Tra cứu chủ xe</a></li>
+                    <li><a class="ad-mini" href="list-customer">Danh sách thông tin chủ xe</a></li>
                 </ul>
             </li>
-            <li>
-                <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu3', this)"><i class="fa-solid fa-store"></i> Quản lý giao dịch</a>
-                <ul class="ad-submenu" id="submenu3">
-                    <li><a class="ad-mini" href="#">Mua bán</a></li>
-                    <li><a class="ad-mini" href="#">Bảo trì sửa chữa</a></li>
-                </ul>
-            </li>
-            <li><a class="ad-tager" href="#"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
+            <li><a class="ad-tager" href="transaction-list"><i class="fa-solid fa-store"></i> Mua Bán</a></li> 
+            <li><a class="ad-tager" href="statistical"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
+            <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li>
             <li>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf

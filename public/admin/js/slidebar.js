@@ -39,3 +39,5 @@ document.getElementById('cancelChangePasswordBtn').addEventListener('click', fun
     document.getElementById('userInfoSection').style.display = 'block'; // Hiển thị lại thông tin cá nhân
     document.getElementById('changePasswordSection').style.display = 'none'; // Ẩn form thay đổi mật khẩu
 });
+
+

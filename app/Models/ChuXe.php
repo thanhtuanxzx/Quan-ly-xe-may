@@ -16,12 +16,10 @@ class ChuXe extends Model
         'so_cmnd',
         'so_dien_thoai',
         'dia_chi',
+        'id_xe'
     ];
 
-    public function xeMay()
-    {
-        return $this->hasMany(XeMay::class, 'id_chu_xe');
-    }
+ 
 
     public function giaoDichBan()
     {
@@ -32,4 +30,10 @@ class ChuXe extends Model
     {
         return $this->hasMany(GiaoDich::class, 'id_nguoi_mua');
     }
+    public function xeMay()
+    {
+        return $this->belongsTo(XeMay::class, 'id_xe', 'id_xe'); 
+    }
+    
+ 
 }

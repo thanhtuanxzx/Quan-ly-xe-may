@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChuXe;
+use App\Models\XeMay;
 use Illuminate\Http\Request;
 
 class ChuXeController extends Controller
@@ -18,6 +19,18 @@ class ChuXeController extends Controller
         $chuXes = ChuXe::all();
         return view('chu_xe.index', compact('chuXes'));
     }
+    public function listCustomer()
+    {
+        // Lấy danh sách chủ xe cùng xe liên kết
+        $Chuxe = ChuXe::with('xeMay')->get();
+    
+        if ($Chuxe->isEmpty()) {
+            return redirect()->back()->withErrors(['message' => 'Không tìm thấy thông tin.']);
+        }
+    
+        return view('admin.list_customer', compact('Chuxe'));
+    }
+    
 
     /**
      * Hiển thị form để tạo mới chủ xe.
@@ -123,4 +136,5 @@ class ChuXeController extends Controller
         ChuXe::destroy($id);
         return redirect()->route('chu_xe.index');
     }
+   
 }

@@ -20,10 +20,10 @@ return new class extends Migration
             $table->date('ngay_giao_dich');
             $table->decimal('gia_ban', 15, 2);
             $table->text('ghi_chu')->nullable();
-            $table->enum('loai_giao_dich', ['Mua mới', 'Bảo trì']);
+            $table->enum('loai_giao_dich', ['Mua xe','Bảo dưỡng','Sửa chữa']);
             $table->unsignedBigInteger('id_nguoi_ban');
             $table->unsignedBigInteger('id_nguoi_mua');
-            $table->foreign('id_nguoi_ban')->references('id_chu_xe')->on('chu_xe')->onDelete('cascade');
+            $table->foreign('id_nguoi_ban')->references('id_nguoi_dung')->on('nguoi_dung')->onDelete('cascade');
             $table->foreign('id_nguoi_mua')->references('id_chu_xe')->on('chu_xe')->onDelete('cascade');
             $table->timestamps();
         });

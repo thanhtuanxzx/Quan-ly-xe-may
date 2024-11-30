@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('chu_xe', function (Blueprint $table) {
             $table->id('id_chu_xe');
             $table->string('ho_ten');
-            $table->string('so_cmnd', 12)->unique();
+            $table->string('so_cmnd', 12)->nullable();
             $table->string('so_dien_thoai', 11);
-            $table->text('dia_chi');
+            $table->text('dia_chi')->nullable();
             $table->unsignedBigInteger('id_xe');
             $table->foreign('id_xe')->references('id_xe')->on('xe_may')->onDelete('cascade');
             $table->timestamps();

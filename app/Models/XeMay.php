@@ -37,8 +37,14 @@ class XeMay extends Model
     {
         return $this->hasMany(GiaoDich::class, 'id_xe');
     }
+    // public function chuXe()
+    // {
+    //     return $this->belongsTo(ChuXe::class, 'id_chu_xe');
+    // }
     public function chuXe()
     {
-        return $this->belongsTo(ChuXe::class, 'id_chu_xe');
+        return $this->hasOne(ChuXe::class, 'id_xe', 'id_xe'); // 'id_xe' là khóa chính của xe_may, 'id_xe' là khóa ngoại trong chu_xe
     }
+    
+   
 }

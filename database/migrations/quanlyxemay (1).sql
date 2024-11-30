@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 27, 2024 lúc 12:21 PM
+-- Thời gian đã tạo: Th10 29, 2024 lúc 04:41 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -38,6 +38,15 @@ CREATE TABLE `chu_xe` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `chu_xe`
+--
+
+INSERT INTO `chu_xe` (`id_chu_xe`, `ho_ten`, `so_cmnd`, `so_dien_thoai`, `dia_chi`, `id_xe`, `created_at`, `updated_at`) VALUES
+(1, 'Nguyễn Văn A', '123456789012', '0909123456', '123 Đường A, Quận B, TP. C', 5, '2024-11-29 15:25:41', '2024-11-29 15:25:41'),
+(2, 'Trần Thị B', '234567890123', '0912345678', '456 Đường X, Quận Y, TP. Z', 6, '2024-11-29 15:25:41', '2024-11-29 15:25:41'),
+(3, 'Lê Văn C', '345678901234', '0934567890', '789 Đường M, Quận N, TP. O', 7, '2024-11-29 15:25:41', '2024-11-29 15:25:41');
+
 -- --------------------------------------------------------
 
 --
@@ -56,6 +65,14 @@ CREATE TABLE `giao_dich` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `giao_dich`
+--
+
+INSERT INTO `giao_dich` (`id_giao_dich`, `id_xe`, `ngay_giao_dich`, `gia_ban`, `ghi_chu`, `loai_giao_dich`, `id_nguoi_ban`, `id_nguoi_mua`, `created_at`, `updated_at`) VALUES
+(1, 5, '2024-11-01', 20000000.00, 'Khách hàng mua xe mới', 'Mua mới', 1, 1, '2024-11-29 15:26:07', '2024-11-29 15:26:07'),
+(2, 6, '2024-11-10', 35000000.00, 'Xe đã qua bảo trì', 'Bảo trì', 1, 2, '2024-11-29 15:26:07', '2024-11-29 15:26:07');
 
 -- --------------------------------------------------------
 
@@ -78,7 +95,8 @@ CREATE TABLE `lien_he` (
 --
 
 INSERT INTO `lien_he` (`id`, `ho_ten`, `so_dien_thoai`, `dich_vu`, `ghi_chu`, `created_at`, `updated_at`) VALUES
-(1, 'sc', '252', 'Mua xe', 'scs', '2024-11-27 03:45:40', '2024-11-27 03:45:40');
+(1, 'Phạm Văn D', '0945678901', 'Mua xe', 'Quan tâm dòng Future 125', '2024-11-29 15:26:29', '2024-11-29 15:26:29'),
+(2, 'Nguyễn Thị E', '0956789012', 'Bảo dưỡng', 'Yêu cầu bảo dưỡng xe SH160', '2024-11-29 15:26:29', '2024-11-29 15:26:29');
 
 -- --------------------------------------------------------
 
@@ -97,12 +115,12 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(17, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(18, '2024_11_27_042319_create_xe_may_table', 1),
-(19, '2024_11_27_042320_create_chu_xe_table', 1),
-(20, '2024_11_27_042327_create_giao_dich_table', 1),
-(21, '2024_11_27_042335_create_nguoi_dung_table', 1),
-(22, '2024_11_27_101824_create_lien_he_table', 1);
+(1, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(2, '2024_11_27_042319_create_xe_may_table', 1),
+(3, '2024_11_27_042320_create_chu_xe_table', 1),
+(4, '2024_11_27_042321_create_nguoi_dung_table', 1),
+(5, '2024_11_27_042327_create_giao_dich_table', 1),
+(6, '2024_11_27_101824_create_lien_he_table', 1);
 
 -- --------------------------------------------------------
 
@@ -118,7 +136,7 @@ CREATE TABLE `nguoi_dung` (
   `email` varchar(255) DEFAULT NULL,
   `so_dien_thoai` varchar(15) NOT NULL,
   `vai_tro` enum('Admin','Nhân viên') NOT NULL DEFAULT 'Nhân viên',
-  `ngay_tao` date NOT NULL DEFAULT '2024-11-27',
+  `ngay_tao` date NOT NULL DEFAULT '2024-11-29',
   `trang_thai` enum('Hoạt động','Tạm khóa') NOT NULL DEFAULT 'Hoạt động',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -129,7 +147,8 @@ CREATE TABLE `nguoi_dung` (
 --
 
 INSERT INTO `nguoi_dung` (`id_nguoi_dung`, `ten_dang_nhap`, `mat_khau`, `ho_ten`, `email`, `so_dien_thoai`, `vai_tro`, `ngay_tao`, `trang_thai`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '123', '', NULL, '', 'Nhân viên', '2024-11-27', 'Hoạt động', NULL, NULL);
+(1, 'admin', '123', '', NULL, '', 'Nhân viên', '2024-11-27', 'Hoạt động', NULL, NULL),
+(2, 'nhanvien1', 'password123', 'Lê Thị G', 'nhanvien1@example.com', '0987654321', 'Nhân viên', '2024-11-29', 'Hoạt động', '2024-11-29 15:26:46', '2024-11-29 15:26:46');
 
 -- --------------------------------------------------------
 
@@ -180,18 +199,18 @@ CREATE TABLE `xe_may` (
 --
 
 INSERT INTO `xe_may` (`id_xe`, `hinh_anh`, `bien_so`, `dong_xe`, `ten_xe`, `gia`, `mau_sac`, `so_khung`, `so_may`, `loai_xe`, `tinh_nang`, `cong_nghe`, `thiet_ke`, `tienich_antoan`, `created_at`, `updated_at`) VALUES
-(5, 'https://product.hstatic.net/200000560101/product/alpha_490c985a1d364ba4b6dda4207be9ab3a.png', 'AB1234', 'Xe số', 'Wawe Alpha', 20000000, 'Đỏ, Xanh', 'KH123456', 'SM987654', '1', 'Phanh đĩa, Động cơ mạnh mẽ', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế gọn nhẹ', 'Hệ thống chống trộm', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(6, 'https://motosaigon.vn/wp-content/uploads/2021/10/honda-future-125-2022-moi-danh-gia-xe-motosaigon-4.jpg', 'AB2345', 'Xe số', 'Future 125', 35000000, 'Xanh, Đỏ', 'KH654321', 'SM112233', '1', 'Phanh đĩa, Động cơ 125cc', 'Công nghệ tiết kiệm xăng', 'Thiết kế hiện đại', 'Hệ thống an toàn ABS', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(7, 'https://livingwithgravity.com/wp-content/uploads/2021/04/Honda-supercub-6.jpg', 'AB3456', 'Xe số', 'Supercub 125', 45000000, 'Trắng, Đen', 'KH789012', 'SM223344', '1', 'Động cơ mạnh mẽ, Tiết kiệm nhiên liệu', 'Công nghệ phun xăng điện tử', 'Thiết kế cổ điển', 'Chống trộm, khóa an toàn', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(8, 'http://cms-i.autodaily.vn/du-lieu/2017/12/07/3-mau-xe-moi-honda-autodaily-3.jpg', 'AB4567', 'Xe số', 'Honda Blade 110', 24000000, 'Đỏ, Xanh', 'KH345678', 'SM556677', '1', 'Phanh đĩa, Động cơ 110cc', 'Công nghệ tiết kiệm xăng', 'Thiết kế thể thao', 'Hệ thống giảm xóc hiệu quả', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(9, 'https://images.autofun.vn/file1/108fb6bd72614bcaa7a3ed4829d86072_800.png', 'SH160', 'Xe tay ga', 'SH160', 98000000, 'Đỏ, Trắng', 'KH876543', 'SM667788', '2', 'Phanh ABS, Động cơ mạnh mẽ', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế sang trọng', 'Chống trộm, khóa an toàn', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(10, 'http://media.vietq.vn/files/lehoa/2017/10/29/xe-tay-ga-1.jpg', 'VS110', 'Xe tay ga', 'Vision 110', 30000000, 'Đen, Trắng', 'KH123456', 'SM998877', '2', 'Động cơ 110cc, Phanh đĩa', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế thanh lịch', 'Chống trộm, khóa an toàn', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(11, 'https://ssl.latcdn.com/img/95liUzSee-mau-xe-honda-air-blade-1-ba85.jpg', 'AB160', 'Xe tay ga', 'Airblade 160', 55000000, 'Đỏ, Xanh', 'KH112233', 'SM667788', '2', 'Phanh ABS, Động cơ mạnh mẽ', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế thể thao', 'Hệ thống giảm xóc hiệu quả', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(12, 'https://arenamotosikal.com/wp-content/uploads/2022/05/2022-Honda-Lead-125-Thailand-001.jpeg', 'LD125', 'Xe tay ga', 'Lead 125', 42000000, 'Đỏ, Xám', 'KH445566', 'SM223344', '2', 'Động cơ 125cc, Phanh đĩa', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế hiện đại', 'Hệ thống an toàn ABS', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(13, 'https://media.vov.vn/sites/default/files/styles/large/public/2021-12/phien_ban_the_thao_xe_do_den.jpg', 'WX110', 'Xe côn tay', 'Winner X', 60000000, 'Đen, Đỏ', 'KH998877', 'SM334455', '3', 'Động cơ 150cc, Phanh đĩa', 'Công nghệ phun xăng điện tử', 'Thiết kế thể thao', 'Chống trộm, khóa an toàn', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(14, 'https://img.tinxe.vn/resize/1000x-/2021/01/12/XForF7yt/mau-xe-honda-cbr150r-2021-1-719c.jpg', 'CBR150', 'Xe côn tay', 'CBR150R', 80000000, 'Đỏ, Xám', 'KH223344', 'SM556677', '3', 'Phanh đĩa, Động cơ mạnh mẽ', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế thể thao', 'Hệ thống chống trộm', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(15, 'https://cdn.honda.com.vn/e-motorbike-versions/Image360/October2024/1729582463/7.png', 'ICONE', 'Xe điện', 'ICON e', 45000000, 'Đen, Trắng', 'KH667788', 'SM998877', '4', 'Phanh ABS, Động cơ điện', 'Công nghệ tiết kiệm năng lượng', 'Thiết kế hiện đại', 'Hệ thống an toàn điện', '2024-11-27 11:18:16', '2024-11-27 11:18:16'),
-(16, 'https://cdn.honda.com.vn/e-motorbike-versions/Image360/October2024/1729590859/7.png', 'CUVE', 'Xe điện', 'CUV e', 50000000, 'Trắng, Đen', 'KH223344', 'SM667788', '4', 'Động cơ điện, Phanh ABS', 'Công nghệ tiết kiệm năng lượng', 'Thiết kế tối giản', 'Hệ thống an toàn điện', '2024-11-27 11:18:16', '2024-11-27 11:18:16');
+(5, 'https://product.hstatic.net/200000560101/product/alpha_490c985a1d364ba4b6dda4207be9ab3a.png', 'AB1234', 'Xe số', 'Wawe Alpha', 20000000, 'Đỏ, Xanh', 'KH123456', 'SM987654', '1', 'Phanh đĩa, Động cơ mạnh mẽ', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế gọn nhẹ', 'Hệ thống chống trộm', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(6, 'https://motosaigon.vn/wp-content/uploads/2021/10/honda-future-125-2022-moi-danh-gia-xe-motosaigon-4.jpg', 'AB2345', 'Xe số', 'Future 125', 35000000, 'Xanh, Đỏ', 'KH654321', 'SM112233', '1', 'Phanh đĩa, Động cơ 125cc', 'Công nghệ tiết kiệm xăng', 'Thiết kế hiện đại', 'Hệ thống an toàn ABS', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(7, 'https://livingwithgravity.com/wp-content/uploads/2021/04/Honda-supercub-6.jpg', 'AB3456', 'Xe số', 'Supercub 125', 45000000, 'Trắng, Đen', 'KH789012', 'SM223344', '1', 'Động cơ mạnh mẽ, Tiết kiệm nhiên liệu', 'Công nghệ phun xăng điện tử', 'Thiết kế cổ điển', 'Chống trộm, khóa an toàn', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(8, 'http://cms-i.autodaily.vn/du-lieu/2017/12/07/3-mau-xe-moi-honda-autodaily-3.jpg', 'AB4567', 'Xe số', 'Honda Blade 110', 24000000, 'Đỏ, Xanh', 'KH345678', 'SM556677', '1', 'Phanh đĩa, Động cơ 110cc', 'Công nghệ tiết kiệm xăng', 'Thiết kế thể thao', 'Hệ thống giảm xóc hiệu quả', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(9, 'https://images.autofun.vn/file1/108fb6bd72614bcaa7a3ed4829d86072_800.png', 'SH160', 'Xe tay ga', 'SH160', 98000000, 'Đỏ, Trắng', 'KH876543', 'SM667788', '2', 'Phanh ABS, Động cơ mạnh mẽ', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế sang trọng', 'Chống trộm, khóa an toàn', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(10, 'http://media.vietq.vn/files/lehoa/2017/10/29/xe-tay-ga-1.jpg', 'VS110', 'Xe tay ga', 'Vision 110', 30000000, 'Đen, Trắng', 'KH123456', 'SM998877', '2', 'Động cơ 110cc, Phanh đĩa', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế thanh lịch', 'Chống trộm, khóa an toàn', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(11, 'https://ssl.latcdn.com/img/95liUzSee-mau-xe-honda-air-blade-1-ba85.jpg', 'AB160', 'Xe tay ga', 'Airblade 160', 55000000, 'Đỏ, Xanh', 'KH112233', 'SM667788', '2', 'Phanh ABS, Động cơ mạnh mẽ', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế thể thao', 'Hệ thống giảm xóc hiệu quả', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(12, 'https://arenamotosikal.com/wp-content/uploads/2022/05/2022-Honda-Lead-125-Thailand-001.jpeg', 'LD125', 'Xe tay ga', 'Lead 125', 42000000, 'Đỏ, Xám', 'KH445566', 'SM223344', '2', 'Động cơ 125cc, Phanh đĩa', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế hiện đại', 'Hệ thống an toàn ABS', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(13, 'https://media.vov.vn/sites/default/files/styles/large/public/2021-12/phien_ban_the_thao_xe_do_den.jpg', 'WX110', 'Xe côn tay', 'Winner X', 60000000, 'Đen, Đỏ', 'KH998877', 'SM334455', '3', 'Động cơ 150cc, Phanh đĩa', 'Công nghệ phun xăng điện tử', 'Thiết kế thể thao', 'Chống trộm, khóa an toàn', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(14, 'https://img.tinxe.vn/resize/1000x-/2021/01/12/XForF7yt/mau-xe-honda-cbr150r-2021-1-719c.jpg', 'CBR150', 'Xe côn tay', 'CBR150R', 80000000, 'Đỏ, Xám', 'KH223344', 'SM556677', '3', 'Phanh đĩa, Động cơ mạnh mẽ', 'Công nghệ tiết kiệm nhiên liệu', 'Thiết kế thể thao', 'Hệ thống chống trộm', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(15, 'https://cdn.honda.com.vn/e-motorbike-versions/Image360/October2024/1729582463/7.png', 'ICONE', 'Xe điện', 'ICON e', 45000000, 'Đen, Trắng', 'KH667788', 'SM998877', '4', 'Phanh ABS, Động cơ điện', 'Công nghệ tiết kiệm năng lượng', 'Thiết kế hiện đại', 'Hệ thống an toàn điện', '2024-11-27 04:18:16', '2024-11-27 04:18:16'),
+(16, 'https://cdn.honda.com.vn/e-motorbike-versions/Image360/October2024/1729590859/7.png', 'CUVE', 'Xe điện', 'CUV e', 50000000, 'Trắng, Đen', 'KH223344', 'SM667788', '4', 'Động cơ điện, Phanh ABS', 'Công nghệ tiết kiệm năng lượng', 'Thiết kế tối giản', 'Hệ thống an toàn điện', '2024-11-27 04:18:16', '2024-11-27 04:18:16');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -256,31 +275,31 @@ ALTER TABLE `xe_may`
 -- AUTO_INCREMENT cho bảng `chu_xe`
 --
 ALTER TABLE `chu_xe`
-  MODIFY `id_chu_xe` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_chu_xe` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `giao_dich`
 --
 ALTER TABLE `giao_dich`
-  MODIFY `id_giao_dich` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_giao_dich` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `lien_he`
 --
 ALTER TABLE `lien_he`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `nguoi_dung`
 --
 ALTER TABLE `nguoi_dung`
-  MODIFY `id_nguoi_dung` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_nguoi_dung` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`
@@ -308,7 +327,7 @@ ALTER TABLE `chu_xe`
 -- Các ràng buộc cho bảng `giao_dich`
 --
 ALTER TABLE `giao_dich`
-  ADD CONSTRAINT `giao_dich_id_nguoi_ban_foreign` FOREIGN KEY (`id_nguoi_ban`) REFERENCES `chu_xe` (`id_chu_xe`) ON DELETE CASCADE,
+  ADD CONSTRAINT `giao_dich_id_nguoi_ban_foreign` FOREIGN KEY (`id_nguoi_ban`) REFERENCES `nguoi_dung` (`id_nguoi_dung`) ON DELETE CASCADE,
   ADD CONSTRAINT `giao_dich_id_nguoi_mua_foreign` FOREIGN KEY (`id_nguoi_mua`) REFERENCES `chu_xe` (`id_chu_xe`) ON DELETE CASCADE,
   ADD CONSTRAINT `giao_dich_id_xe_foreign` FOREIGN KEY (`id_xe`) REFERENCES `xe_may` (`id_xe`) ON DELETE CASCADE;
 COMMIT;
