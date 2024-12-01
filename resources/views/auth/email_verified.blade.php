@@ -29,15 +29,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					
 					<div class="header-left-bottom agileinfo">
 
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                    @if($errors->any())
+                        <div style="color: red; margin-bottom: 20px;">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                             
                                 <form action="{{ route('pw.reset') }}" method="POST" enctype="multipart/form-data">
                                     @csrf

@@ -49,9 +49,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <p>{{ session('status') }}</p>
                             @endif
                         
-                            @error('email')
-                                <p>{{ $message }}</p>
-                            @enderror
+                         
 				</div>
 				</div>
 			  

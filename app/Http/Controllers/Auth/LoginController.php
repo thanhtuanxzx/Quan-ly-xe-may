@@ -71,7 +71,8 @@ public function forgetPassword(Request $request)
     ]);
 
     if ($validator->fails()) {
-        return response()->json(['status' => 422,'errors' => $validator->errors()], 422);
+        return redirect()->back()->withErrors($validator)->withInput();
+
     }
 
     $user = NguoiDung::where('email', $request->email)->first();
@@ -87,6 +88,7 @@ public function forgetPassword(Request $request)
     // // Redirect tới route password.reset.form và truyền token
     // return redirect()->route('password.reset.form', ['token' => $token])
     //                  ->with('status', 'Password reset link sent to your email.');
+    return redirect()->route('login');
 }
 public function showResetPasswordForm(Request $request)
 {
