@@ -675,6 +675,7 @@ if (!$user) {
             'email' => 'required|email|max:255|unique:nguoi_dung,email,' . $request->id_nguoi_dung . ',id_nguoi_dung',
             'phone' => 'nullable|string|max:15',
             'mat_khau' => 'nullable|string|max:255',
+            'trang_thai'=>'required|string|max:255',
         ]);
 
         try {
@@ -690,6 +691,7 @@ if (!$user) {
             $user->email = $validated['email'];
             $user->so_dien_thoai = $validated['phone'];
             $user->mat_khau = $validated['mat_khau'];
+            $user->trang_thai = $validated['trang_thai'];
 
             // Lưu thông tin
             $user->save();

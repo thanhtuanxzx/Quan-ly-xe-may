@@ -71,7 +71,9 @@
                     <th>Số Điện Thoại</th>
                     <th>Email</th>
                     <th>Vai Trò</th>
+                    <th>Trạng thái</th>
                     <th>Thao tác</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -83,6 +85,7 @@
                         <td>{{$ad->so_dien_thoai}}</td>
                         <td>{{$ad->email}}</td>
                         <td>{{$ad->vai_tro}}</td>
+                        <td>{{$ad->trang_thai}}</td>
                         <td>
                             <button class="ad-btn-back" onclick="window.location.href='edit-admin?id_nguoidung={{ $ad->id_nguoi_dung }}'">Sửa</button>
                             <button class="ad-btn-del" onclick="window.location.href='delete-admin?id_nguoidung={{ $ad->id_nguoi_dung }}'">Xóa</button>

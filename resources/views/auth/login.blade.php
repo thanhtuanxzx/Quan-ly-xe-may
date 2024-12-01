@@ -28,6 +28,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="header-right w3agile">
 					
 					<div class="header-left-bottom agileinfo">
+					@if($errors->has('ten_dang_nhap'))
+					<div style="color: red; margin-bottom: 20px;">
+						<div class="alert alert-danger">
+							{{ $errors->first('ten_dang_nhap') }}
+						</div>
+						</div>
+					@endif
+
+					@if($errors->has('trang_thai'))
+					<div style="color: red; margin-bottom: 20px;">
+						<div class="alert alert-danger">
+							{{ $errors->first('trang_thai') }}
+						</div>
+						</div>
+					@endif
+
 						
 					 <form action="{{ url('/login') }}" method="post">
                      @csrf

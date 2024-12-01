@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css\slidebar.css">
     <link rel="stylesheet" href="css/account_admin.css">
+    
 </head>
 <body>
 
@@ -83,6 +84,13 @@
                     <div class="form-group">
                         <label for="role">Vai trò</label>
                         <input type="text" id="role" name="" value="Nhân viên" readonly />
+                    </div>
+                    <div class="ad-form-group">
+                        <label for="role">Trạng thái</label>
+                        <select id="add-type" name="trang_thai" class="ad-select">
+                            <option value="Hoạt động" {{ $xeMay->trang_thai == 'Hoạt động' ? 'selected' : '' }}>Hoạt Động</option>
+                            <option value="Tạm khóa" {{ $xeMay->trang_thai == 'Tạm khóa' ? 'selected' : '' }}>Tạm Khóa</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="currentPassword">Mật khẩu</label>
