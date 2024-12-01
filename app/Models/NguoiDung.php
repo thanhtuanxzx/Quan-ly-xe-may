@@ -12,6 +12,12 @@ class NguoiDung extends Authenticatable
     protected $fillable = [
         'ten_dang_nhap',
         'mat_khau',
+        'ho_ten',
+        'email',
+        'so_dien_thoai',
+        'vai_tro',
+        'token',
+        'ngay_tao',
         'trang_thai',
     ];
 
@@ -19,9 +25,15 @@ class NguoiDung extends Authenticatable
         'mat_khau',
     ];
 
-    // Tùy chỉnh mật khẩu nếu cần mã hóa
-    public function setMatKhauAttribute($value)
-    {
-        $this->attributes['mat_khau'] = bcrypt($value);
-    }
+    protected $dates = [
+        'ngay_tao',
+        'created_at',
+        'updated_at',
+    ];
+    protected $attributes = [
+        'vai_tro' => 'Nhân viên',
+        'trang_thai' => 'Hoạt động',
+    ];
+    
+    
 }

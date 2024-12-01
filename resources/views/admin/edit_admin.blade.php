@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <div class="ad-sidebar">
+<div class="ad-sidebar">
         <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
@@ -37,13 +37,13 @@
             </li>
           
             <li><a class="ad-tager" href="statistical"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
-            <li><a class="ad-tager" href=""><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
+            <li><a class="ad-tager" href="contact"><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu4', this)"><i class="fa-solid fa-store"></i> Quản lý Admin</a>
                 <ul class="ad-submenu" id="submenu4">
                     <li><a class="ad-mini" href="add-admin">Tạo mới tài khoản nhân viên</a></li>
                     <li><a class="ad-mini" href="list-admin">Danh sách nhân viên</a></li>
-                    <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li>
+                    <!-- <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li> -->
                 </ul>
             </li>
             <!-- <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li> -->
@@ -61,42 +61,38 @@
 
     <div class="ad-content">
         <h1>Quản Lý Tài Khoản</h1>
-
         <div class="account-management">
             <section class="user-info" id="userInfoSection">
                 <h2 class="ad-tit">Thông Tin Cá Nhân</h2>
-                <form id="userInfoForm">
-
+<form id="userInfoForm" method="POST" action="{{ route('admin.update') }}">
+                    @csrf
+                    @method('PUT')
+                    <input class="form-control" type="hidden" name="id_nguoi_dung" value="{{ old('id_nguoi_dung', $xeMay->id_nguoi_dung) }}">
                     <div class="form-group">
                         <label for="fullName">Họ và tên</label>
-                        <input type="text" id="fullName" name="fullName" value="Nguyen Van A" />
+                        <input type="text" id="fullName" name="fullName" value="{{ old('fullName', $xeMay->ho_ten) }}" />
                     </div>
-
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="nguyen.van.a@example.com" />
+                        <input type="email" id="email" name="email" value="{{ old('email', $xeMay->email) }}" />
                     </div>
-                    
                     <div class="form-group">
                         <label for="phone">Số điện thoại</label>
-                        <input type="tel" id="phone" name="phone" value="0123456789" />
+                        <input type="tel" id="phone" name="phone" value="{{ old('phone', $xeMay->so_dien_thoai) }}" />
                     </div>
                     <div class="form-group">
                         <label for="role">Vai trò</label>
-                        <input type="text" id="role" name="" value="Nhân viên"/>
+                        <input type="text" id="role" name="" value="Nhân viên" readonly />
                     </div>
-
                     <div class="form-group">
                         <label for="currentPassword">Mật khẩu</label>
-                        <input type="text" id="currentPassword" name="" value="123456"/>
+                        <input type="text" id="currentPassword" name="mat_khau" value="{{ old('mat_khau', $xeMay->mat_khau) }}" />
                     </div>
-    
                     <div class="ad-btn_in4">
                         <button type="submit" class="btn">Cập nhật thông tin</button>
-                        <button class="btn btn-cancel">Quay lại</button>
+                        <button type="button" class="btn btn-cancel" onclick="window.history.back()">Quay lại</button>
                     </div>
-
-                </form>
+                </form>                
             </section>
         </div>
     </div>

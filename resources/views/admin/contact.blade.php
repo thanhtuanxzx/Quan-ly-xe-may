@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <div class="ad-sidebar">
+<div class="ad-sidebar">
         <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
@@ -37,13 +37,13 @@
             </li>
           
             <li><a class="ad-tager" href="statistical"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
-            <li><a class="ad-tager" href=""><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
+            <li><a class="ad-tager" href="contact"><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu4', this)"><i class="fa-solid fa-store"></i> Quản lý Admin</a>
                 <ul class="ad-submenu" id="submenu4">
                     <li><a class="ad-mini" href="add-admin">Tạo mới tài khoản nhân viên</a></li>
                     <li><a class="ad-mini" href="list-admin">Danh sách nhân viên</a></li>
-                    <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li>
+                    <!-- <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li> -->
                 </ul>
             </li>
             <!-- <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li> -->
@@ -63,30 +63,17 @@
         <h2>Danh Sách Yêu Cầu Tư Vấn</h2>
         <div class="consultation-list">
             <ul id="consultationMessages">
+                @foreach ($sanPhams as $lh)
+                @csrf
                 <li class="message">
-                    <p class="name">Nguyễn Văn A</p>
-                    <p class="email">Số điện thoại: 0123456789</p>
-                    <p class="message-text">Dịch vụ: </p>
-                    <p class="message-text">Ghi chú: </p>
-                    <p class="message-text">Ngày: </p>
-                    <button class="contacted-btn">Xóa</button>
+                    <p class="name">{{$lh->ho_ten}}</p>
+                    <p class="email">Số điện thoại: {{$lh->so_dien_thoai}}</p>
+                    <p class="message-text">Dịch vụ: {{$lh->dich_vu}}</p>
+                    <p class="message-text">Ghi chú: {{$lh->ghi_chu}}</p>
+                    <p class="message-text">Ngày: {{$lh->created_at}}</p>
+                    <button class="contacted-btn" onclick="window.location.href='destroy?id={{ $lh->id }}'" >Xóa</button>
                 </li>
-                <li class="message">
-                    <p class="name">Trần Thị B</p>
-                    <p class="email">Số điện thoại: 0123456789</p>
-                    <p class="message-text">Dịch vụ: </p>
-                    <p class="message-text">Ghi chú: </p>
-                    <p class="message-text">Ngày: </p>
-                    <button class="contacted-btn">Xóa</button>
-                </li>
-                <li class="message">
-                    <p class="name">Lê Văn C</p>
-                    <p class="email">Số điện thoại: 0123456789</p>
-                    <p class="message-text">Dịch vụ: </p>
-                    <p class="message-text">Ghi chú: </p>
-                    <p class="message-text">Ngày: </p>
-                    <button class="contacted-btn">Xóa</button>
-                </li>
+                @endforeach
             </ul>
         </div>
         

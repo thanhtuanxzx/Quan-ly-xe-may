@@ -66,13 +66,19 @@ class UserController extends Controller
 
     public function sanpham(Request $request)
     {
-
         $loai_xe = $request->query('loai_xe');
-    
-        $xeMays = XeMay::where('loai_xe', $loai_xe)->get(); // 'loai_xe' là cột trong bảng XeMay
 
+        // Lọc xe không có biển số (bien_so == null hoặc bien_so rỗng)
+        $xeMays = XeMay::where('loai_xe', $loai_xe)
+                       ->where(function ($query) {
+                           $query->whereNull('bien_so') // bien_so là null
+                                 ->orWhere('bien_so', ''); // hoặc bien_so là chuỗi rỗng
+                       })
+                       ->get();
+        
         // Truyền dữ liệu ra view
         return view('users.sanpham', compact('xeMays', 'loai_xe'));
+        
     }
     
     public function thongtin()

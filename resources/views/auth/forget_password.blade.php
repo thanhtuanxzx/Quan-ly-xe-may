@@ -9,7 +9,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <title>Classy Login form Widget Flat Responsive Widget Template :: w3layouts</title>
 <script src="js/jquery.min.js"></script>
 <!-- Custom Theme files -->
-<link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="/css/style.css" rel="stylesheet" type="text/css" media="all"/>
 <!-- for-mobile-apps -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -23,29 +23,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--header start here-->
 <div class="header">
 		<div class="header-main">
-		       <h1>Login</h1>
+		       <h1>Forget Password</h1>
 			<div class="header-bottom">
 				<div class="header-right w3agile">
 					
 					<div class="header-left-bottom agileinfo">
-						
-					 <form action="{{ url('/login') }}" method="post">
-                     @csrf
-						<input type="text"  value="User name" name="ten_dang_nhap" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'User name';}"/>
-					<input type="password"  value="Password" name="mat_khau" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"/>
-						<div class="remember">
-			             <span class="checkbox1">
-							   <label class="checkbox"><input type="checkbox" name="" checked=""><i> </i>Remember me</label>
-						 </span>
-						 <div class="forgot">
-						 	<h6><a href="password/forget">Forgot Password?</a></h6>
-						 </div>
-						<div class="clear"> </div>
-					  </div>
-					   
-						<input type="submit" value="Login">
-					</form>	
-		
+
+                        @if($errors->any())
+                        <div style="color: red; margin-bottom: 20px;">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="{{ route('password.forget') }}" method="POST">
+                        @csrf
+
+                                    <input class="fg-pass" type="email" name="email" placeholder="Nhập Email" required>
+                            
+                                    <input type="submit" value="Forget Password">
+                                </form>
+                                @if(session('status'))
+                                <p>{{ session('status') }}</p>
+                            @endif
+                        
+                            @error('email')
+                                <p>{{ $message }}</p>
+                            @enderror
 				</div>
 				</div>
 			  

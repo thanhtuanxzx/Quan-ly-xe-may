@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('mat_khau');
             $table->string('ho_ten');
             $table->string('email')->nullable()->unique();
+            $table->string('token')->nullable();
             $table->string('so_dien_thoai', 15);
             $table->enum('vai_tro', ['Admin', 'Nhân viên'])->default('Nhân viên');
             $table->date('ngay_tao')->default(now());

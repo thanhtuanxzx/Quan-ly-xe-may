@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <div class="ad-sidebar">
+<div class="ad-sidebar">
         <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
@@ -37,13 +37,13 @@
             </li>
           
             <li><a class="ad-tager" href="statistical"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
-            <li><a class="ad-tager" href=""><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
+            <li><a class="ad-tager" href="contact"><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu4', this)"><i class="fa-solid fa-store"></i> Quản lý Admin</a>
                 <ul class="ad-submenu" id="submenu4">
                     <li><a class="ad-mini" href="add-admin">Tạo mới tài khoản nhân viên</a></li>
                     <li><a class="ad-mini" href="list-admin">Danh sách nhân viên</a></li>
-                    <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li>
+                    <!-- <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li> -->
                 </ul>
             </li>
             <!-- <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li> -->
@@ -58,7 +58,6 @@
             </li>
         </ul>
     </div>
-
     <div class="ad-content">
         <h1>Lịch Sử Bảo Dưỡng/Bảo Trì</h1>
         <div class="ad-buttons">

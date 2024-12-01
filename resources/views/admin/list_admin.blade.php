@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <div class="ad-sidebar">
+<div class="ad-sidebar">
         <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
@@ -37,13 +37,13 @@
             </li>
           
             <li><a class="ad-tager" href="statistical"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
-            <li><a class="ad-tager" href=""><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
+            <li><a class="ad-tager" href="contact"><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu4', this)"><i class="fa-solid fa-store"></i> Quản lý Admin</a>
                 <ul class="ad-submenu" id="submenu4">
                     <li><a class="ad-mini" href="add-admin">Tạo mới tài khoản nhân viên</a></li>
                     <li><a class="ad-mini" href="list-admin">Danh sách nhân viên</a></li>
-                    <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li>
+                    <!-- <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li> -->
                 </ul>
             </li>
             <!-- <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li> -->
@@ -62,12 +62,11 @@
     <div class="ad-content">
         <h1 class="ad-title">Danh sách Admin</h1>
         <div class="ad-buttons">
-            <button class="ad-btn-add" onclick="window.location.href='trade_maintenance.html';">Thêm</button>
+            <button class="ad-btn-add" onclick="window.location.href='add-admin';">Thêm</button>
         </div>
         <table class="ad-maintenance-table">
             <thead>
-                <tr>
-                    <th>ID</th>
+<tr>
                     <th>Họ Tên</th>
                     <th>Số Điện Thoại</th>
                     <th>Email</th>
@@ -76,29 +75,22 @@
                 </tr>
             </thead>
             <tbody>
+                
+            @foreach ($sanPhams as $ad)
+                @if($ad->vai_tro != 'Admin')
+                    <tr>
+                        <td>{{$ad->ho_ten}}</td>
+                        <td>{{$ad->so_dien_thoai}}</td>
+                        <td>{{$ad->email}}</td>
+                        <td>{{$ad->vai_tro}}</td>
+                        <td>
+                            <button class="ad-btn-back" onclick="window.location.href='edit-admin?id_nguoidung={{ $ad->id_nguoi_dung }}'">Sửa</button>
+                            <button class="ad-btn-del" onclick="window.location.href='delete-admin?id_nguoidung={{ $ad->id_nguoi_dung }}'">Xóa</button>
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
 
-                <tr>
-                    <td>1</td>
-                    <td>Tuấn Cak</td>
-                    <td>0123456789</td>
-                    <td>tuancak04@gmail.com</td>
-                    <td>Nhân Viên</td>
-                    <td>
-                        <button class="ad-btn-back">Sửa</button>
-                        <button class="ad-btn-del">Xóa</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Tuệ Loz</td>
-                    <td>0321654987</td>
-                    <td>tueloz2004@gmail.com</td>
-                    <td>Nhân Viên</td>
-                    <td>
-                        <button class="ad-btn-back">Sửa</button>
-                        <button class="ad-btn-del">Xóa</button>
-                    </td>
-                </tr>
             </tbody>
         </table>
     </div>

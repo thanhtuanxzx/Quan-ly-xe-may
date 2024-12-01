@@ -40,14 +40,15 @@ body {
 body::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -20px;
+  left: -20px;
+  width: 110%;
+  height: 110%;
   background: url(../images/banner1.jpg) no-repeat center center;
   background-size: cover;
-  filter: blur(8px); /* Làm mờ ảnh nền */
-  z-index: -1; /* Đảm bảo lớp phủ mờ nằm dưới nội dung */
+  filter: blur(10px);
+  z-index: -1;
+  display: block;
 }
 h1,h2,h3,h4,h5,h6{
 	margin:0;			   
@@ -127,7 +128,7 @@ span.login-color {
   color:#FFB900;
   font-weight: 700;
 }
-.header-left-bottom input[type="text"] {
+.header-left-bottom input[type="text"], .fg-pass{
     background: url(../images/m.png)no-repeat 0px 5px;
     outline: none;
     font-size: 15px;

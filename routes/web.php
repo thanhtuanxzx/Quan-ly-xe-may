@@ -17,7 +17,7 @@ use App\Http\Controllers\ChuXeController;
 |
 */
 
-Route::get('/', [XeMayController::class, 'index']);
+Route::get('/', [UserController::class, 'index']);
 
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -63,15 +63,40 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('list-customer', [ChuXeController::class, 'listCustomer'])->name('admin.list.customer');
     Route::get('/statistical', [AdminController::class, 'statistical'])->name('admin.statistical');
     Route::get('/trade-maintenance', [AdminController::class, 'tradeMaintenance'])->name('admin.trade.maintenance');
-    Route::get('/trade-motor', [AdminController::class, 'tradeMotor'])->name('admin.trade.motor');
+    // Route::get('/trade-motor', [AdminController::class, 'tradeMotor'])->name('admin.trade.motor'); //Bị nớp
     Route::post('/trader',[AdminController::class,'trade'])->name('admin.trade');
     Route::get('/transaction-list', [AdminController::class, 'transactionList'])->name('admin.transaction.list');
-    Route::post('/process-form', [AdminController::class, 'processForm'])->name('processForm');
+    // Route::post('/process-form', [AdminController::class, 'processForm'])->name('processForm'); //Nớp theo
 
-    Route::get('/edit-admin', [AdminController::class, 'editAD'])->name('admin.edit.admin');
-    Route::get('/list-admin', [AdminController::class, 'listAD'])->name('admin.list.admin');
+    Route::get('/edit-admin', [AdminController::class, 'editAD'])->name('admin.edit.admin')->middleware('role:Admin');
+    Route::get('/list-admin', [AdminController::class, 'listAD'])->name('admin.list.admin')->middleware('role:Admin');
+    Route::get('/add-admin', [AdminController::class, 'addAD'])->name('admin.add.admin')->middleware('role:Admin');
 
-    
-    Route::get('/add-admin', [AdminController::class, 'addAD'])->name('admin.add.admin');
     Route::get('/contact', [AdminController::class, 'contact'])->name('admin.contact');
+
+    Route::get('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
+    Route::post('/list-admin', [AdminController::class, 'themad'])->name('nguoidung.store')->middleware('role:Admin');
+    Route::get('/delete-admin', [AdminController::class, 'deleteAdmin'])->name('delete.admin')->middleware('role:Admin');
+    Route::put('list-admin', [AdminController::class, 'updateAdmin'])->name('admin.update')->middleware('role:Admin');
 });
+// Route::get('/admin', function () {
+//     return 'Chào mừng Admin!';
+// })->middleware('role:Admin');
+
+// Route::get('/nhanvien', function () {
+//     return 'Chào mừng Nhân viên!';
+// })->middleware('role:Nhân viên');
+// Route::get('/email/verify/{token}', [LoginController::class, 'verifyEmail'])->name('email.verify');
+
+// Route để hiển thị form quên mật khẩu
+Route::get('/password/forget', [LoginController::class, 'showForgetPasswordForm'])->name('password.forget.form');
+
+// Route để xử lý quên mật khẩu
+Route::post('/password/forget', [LoginController::class, 'forgetPassword'])->name('password.forget');
+
+// Route để hiển thị form reset mật khẩu
+Route::get('/password/reset', [LoginController::class, 'verifyEmail'])->name('reset.form');
+
+
+// Route để xử lý đặt lại mật khẩu
+Route::post('/passwordreset', [LoginController::class, 'resetPassword'])->name('pw.reset');

@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\XeMay;
 use App\Models\ChuXe;
 use App\Models\GiaoDich;
+use App\Models\LienHe;
+use App\Models\NguoiDung;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+
 
 class AdminController extends Controller
 {
@@ -263,10 +267,45 @@ class AdminController extends Controller
     
 
 
-    public function statistical()
+    public function statistical(Request $request)
     {
-        return view('admin.statistical');
+        // Lấy query ban đầu
+        $query = GiaoDich::query();
+    
+        // Kiểm tra và áp dụng điều kiện lọc loại giao dịch (nếu có)
+        if ($request->filled('loai_giao_dich')) {
+            $query->where('loai_giao_dich', $request->input('loai_giao_dich'));
+        }
+    
+        // Lọc theo ngày giao dịch trong 6 tháng gần đây và sắp xếp
+        $giaoDich = $query->where('ngay_giao_dich', '>=', now()->subMonths(6))
+                          ->orderByDesc('ngay_giao_dich')
+                          ->get();
+    
+        // Nhóm giao dịch theo tháng và loại giao dịch
+        $thongKe = $giaoDich->groupBy(function($item) {
+            return \Carbon\Carbon::parse($item->ngay_giao_dich)->format('Y-m'); // Nhóm theo tháng (format: YYYY-MM)
+        });
+    
+        // Tính tổng giá trị cho mỗi tháng
+        $thongKeData = [];
+        foreach ($thongKe as $month => $transactions) {
+            $muaBan = $transactions->where('loai_giao_dich', 'Mua xe')->sum('gia_ban');
+            $baoDuong = $transactions->whereIn('loai_giao_dich', ['Bảo dưỡng', 'Sửa chữa'])->sum('gia_ban');
+            $tong = $muaBan + $baoDuong;
+    
+            $thongKeData[] = [
+                'thang' => $month,
+                'mua_ban' => $muaBan,
+                'bao_duong' => $baoDuong,
+                'tong' => $tong
+            ];
+        }
+    
+        // Trả về view với dữ liệu thống kê
+        return view('admin.statistical', compact('thongKeData'));
     }
+    
 
     public function tradeMaintenance()
     {
@@ -298,60 +337,59 @@ class AdminController extends Controller
             return response()->json(['errors' => $e->errors()], 422);
         }
     
-        // Kiểm tra biển số trong bảng XeMay
-        $vehicle = XeMay::firstOrCreate(
-            ['bien_so' => $validatedData['bien_so']], // Điều kiện tìm xe
-            ['ten_xe' => $validatedData['ten_xe']]  // Nếu không có, tạo xe mới
-        );
+        // Kiểm tra biển số
+        $vehicle = XeMay::where('bien_so', $validatedData['bien_so'])->first();
     
-        // Kiểm tra chủ xe theo số điện thoại
-        $owner = ChuXe::firstOrCreate(
-            ['so_dien_thoai' => $validatedData['so_dien_thoai']], // Điều kiện tìm chủ xe
-            [
+        if ($vehicle) {
+            // Kiểm tra xem xe này đã gắn với một chủ xe khác
+            $existingOwner = ChuXe::where('id_xe', $vehicle->id_xe)->first();
+            if ($existingOwner && $existingOwner->so_dien_thoai !== $validatedData['so_dien_thoai']) {
+                return back()->withErrors(['bien_so' => 'Biển số này đã được gắn với một chủ xe khác!']);
+            }
+        } else {
+            // Tạo xe mới nếu chưa tồn tại
+            $vehicle = XeMay::create([
+                'bien_so' => $validatedData['bien_so'],
+                'ten_xe' => $validatedData['ten_xe']
+            ]);
+        }
+    
+        // Kiểm tra chủ xe
+        $owner = ChuXe::where('so_dien_thoai', $validatedData['so_dien_thoai'])->first();
+        if (!$owner) {
+            // Tạo mới chủ xe nếu chưa tồn tại
+            $owner = ChuXe::create([
                 'ho_ten' => $validatedData['ho_ten'],
-                'id_xe' => $vehicle->id_xe  // Gắn id_xe vào chủ xe
-            ]
-        );
+                'so_dien_thoai' => $validatedData['so_dien_thoai'],
+                'id_xe' => $vehicle->id_xe
+            ]);
+        } else {
+            // Gắn lại xe nếu chủ xe đã tồn tại
+            $owner->update(['id_xe' => $vehicle->id_xe]);
+        }
     
         // Tạo giao dịch
         GiaoDich::create([
-            'id_xe' => $vehicle->id_xe,  // ID xe
+            'id_xe' => $vehicle->id_xe,
             'ngay_giao_dich' => $validatedData['ngay_giao_dich'],
             'gia_ban' => $validatedData['gia_ban'],
             'ghi_chu' => $validatedData['ghi_chu'],
             'loai_giao_dich' => $validatedData['loai_giao_dich'],
             'id_nguoi_ban' => auth()->id(),
-            'id_nguoi_mua' => $owner->id_chu_xe,  // ID chủ xe mua
+            'id_nguoi_mua' => $owner->id_chu_xe,
         ]);
     
-        return redirect()->route('admin.trade.maintenance')->with('success', 'Thông tin xe đã được thêm thành công!');
+        return redirect()->route('admin.trade.maintenance')->with('success', 'Thông tin xe và giao dịch đã được xử lý thành công!');
     }
+    
     // Hiển thị form thêm admin
     public function addAD()
     {
         return view('admin.add_admin'); // Trả về view form thêm admin
     }
 
-    // Hiển thị form chỉnh sửa admin
-    public function editAD()
-    {
-      
-
-        return view('admin.edit_admin'); // Trả về view form chỉnh sửa admin
-    }
-
-    // Hiển thị danh sách admin
-    public function listAD()
-    {
-       
-        return view('admin.list_admin'); // Trả về view danh sách admin
-    }
-
-    // Hiển thị thông tin liên hệ
-    public function contact()
-    {
-        return view('admin.contact'); // Trả về view thông tin liên hệ
-    }
+  
+ 
    // Minh Tue 
 
 
@@ -414,6 +452,20 @@ class AdminController extends Controller
         $chuXe->id_xe = $xeMoi->id_xe; // Gắn với xe mới
         $chuXe->save();
 
+        // $ID = ChuXe::where('so_cmnd',$validatedData['so_cmnd'])->first();
+        //Thêm giao dịch mới 
+   
+        $gd = new GiaoDich();
+        $gd->id_xe = $xeMoi->id_xe;
+        $gd->ngay_giao_dich = now();
+        $gd->gia_ban = $xeMoi->gia;
+        $gd->ghi_chu = 'Mua mới';
+        $gd->loai_giao_dich = 'Mua xe';
+        $gd->id_nguoi_ban = auth()->id();
+        $gd->id_nguoi_mua = $chuXe->id_chu_xe;
+        $gd ->save();
+
+
         return redirect()->route('admin.list_motor')->with('success', 'Thêm xe mới và chủ xe thành công!');
     }
 
@@ -445,7 +497,7 @@ class AdminController extends Controller
     }
     public function tradeMotor(Request $request)
     {
-$idXe = $request->query('id_xe');
+        $idXe = $request->query('id_xe');
 
         // Tìm sản phẩm bằng Model
         $sanPham = XeMay::find($idXe);
@@ -508,6 +560,148 @@ $idXe = $request->query('id_xe');
         } catch (\Exception $e) {
             // Catch any unexpected errors and redirect back with error message
 return redirect()->back()->withErrors('Đã xảy ra lỗi: ' . $e->getMessage());
+        }
+    }
+    public function contact()
+    {
+        $sanPhams = LienHe::all();
+
+        return view('admin.contact', data: compact('sanPhams')); // Trả về view thông tin liên hệ
+    }
+    public function destroy(Request $request)
+    {
+        // Lấy id_xe từ query string
+        $idXe = $request->query('id');
+
+        // Tìm sản phẩm cần xóa
+        $sanPham = LienHe::find($idXe);
+
+        // Kiểm tra sản phẩm có tồn tại không
+        if (!$sanPham) {
+            abort(404, 'Sản phẩm không tồn tại');
+        }
+
+        // Xóa sản phẩm
+        $sanPham->delete();
+
+        // Điều hướng về danh sách sản phẩm với thông báo thành công
+        return redirect()->route('admin.contact');
+    }
+    public function themad(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ten_dang_nhap' => 'required|unique:nguoi_dung,ten_dang_nhap|max:255',
+            'mat_khau' => 'required|max:255',
+            'ho_ten' => 'required|max:255',
+            'so_dien_thoai' => 'required|max:255',
+            'email' => 'required|email|unique:nguoi_dung,email|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+        
+            // Tạo một thông báo lỗi cụ thể
+            if ($errors->has('ten_dang_nhap')) {
+                return redirect()->back()
+                    ->withErrors(['ten_dang_nhap' => 'Tên đăng nhập đã tồn tại.'])
+                    ->withInput();
+            }
+        
+            if ($errors->has('email')) {
+                return redirect()->back()
+                    ->withErrors(['email' => 'Email đã được sử dụng.'])
+                    ->withInput();
+            }
+        
+            // Trường hợp có nhiều lỗi khác
+            return redirect()->back()
+                ->withErrors($errors)
+                ->withInput();
+        }
+
+        $nguoiDung = new NguoiDung();
+        $nguoiDung->ten_dang_nhap = $request->ten_dang_nhap;
+        $nguoiDung->mat_khau = $request->mat_khau;
+        $nguoiDung->ho_ten = $request->ho_ten;
+        $nguoiDung->so_dien_thoai = $request->so_dien_thoai;
+        $nguoiDung->email = $request->email;
+        $nguoiDung->ngay_tao = now();
+        $nguoiDung->vai_tro = 'Nhân viên'; // Mặc định là Nhân viên
+        $nguoiDung->trang_thai = 'Hoạt động'; // Mặc định hoạt động
+        $nguoiDung->save();
+
+        return redirect()->route('admin.list.admin')->with('success', 'Thêm người dùng thành công!');
+    }
+    public function listAD()
+    {
+        $sanPhams = NguoiDung::all();
+        return view('admin.list_admin', data: compact('sanPhams'));
+    }
+    public function deleteAdmin(Request $request)
+    {
+        // Validate the input
+        $idNguoiDung = $request->query('id_nguoidung');
+
+        try {
+            // Attempt to find the user
+            $user = NguoiDung::find($idNguoiDung);
+if (!$user) {
+                return redirect()->back()->with('error', 'User not found!');
+            }
+
+            // Delete the user
+            $user->delete();
+
+            // Redirect with success message
+            return redirect()->back()->with('success', 'User deleted successfully!');
+        } catch (\Exception $e) {
+            // Handle any errors
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+    public function editAD(Request $request)
+    {
+        $id_nguoi_dung = $request->query('id_nguoidung');
+        // Tìm thông tin xe cần chỉnh sửa
+        $xeMay = NguoiDung::find($id_nguoi_dung);
+        return view('admin.edit_admin', compact('xeMay')); // Trả về view form chỉnh sửa admin
+    }
+    public function updateAdmin(Request $request)
+    {
+        // Validate dữ liệu đầu vào
+        $validated = $request->validate([
+            'id_nguoi_dung' => 'required|integer|exists:nguoi_dung,id_nguoi_dung',
+            'fullName' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:nguoi_dung,email,' . $request->id_nguoi_dung . ',id_nguoi_dung',
+            'phone' => 'nullable|string|max:15',
+            'mat_khau' => 'nullable|string|max:255',
+        ]);
+
+        try {
+            // Lấy thông tin người dùng theo ID
+            $user = NguoiDung::find($validated['id_nguoi_dung']);
+
+            if (!$user) {
+                return redirect()->route('admin.list.admin')->with('error', 'Không tìm thấy người dùng!');
+            }
+
+            // Cập nhật thông tin người dùng
+            $user->ho_ten = $validated['fullName'];
+            $user->email = $validated['email'];
+            $user->so_dien_thoai = $validated['phone'];
+            $user->mat_khau = $validated['mat_khau'];
+
+            // Lưu thông tin
+            $user->save();
+
+            // Chuyển hướng với thông báo thành công
+            return redirect()->route('admin.list.admin')->with('success', 'Cập nhật thông tin người dùng thành công!');
+        } catch (\Exception $e) {
+            // Ghi log lỗi
+            \Log::error('Lỗi khi cập nhật người dùng: ' . $e->getMessage());
+
+            // Chuyển hướng với thông báo lỗi
+            return redirect()->route('admin.list.admin')->with('error', 'Có lỗi xảy ra khi cập nhật thông tin người dùng.');
         }
     }
 }     

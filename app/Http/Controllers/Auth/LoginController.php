@@ -5,6 +5,13 @@ use App\Models\NguoiDung;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPasswordEmail;
+use App\Mail\VerificationEmail;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str; 
 
 
 class LoginController extends Controller
@@ -42,4 +49,91 @@ class LoginController extends Controller
         Auth::logout();
         return redirect('/login');
     }
+    public function verifyEmail(Request $request)
+{
+    // $request->validate(['token' => 'required|string']);
+    // $user = NguoiDung::where('token', $request->token)->first();
+
+    // if ($user) {
+    //     $user->token = null;
+    //     $user->save();
+
+    //     return view('auth.login', ['message' => 'Email verified successfully.']);
+    // }
+
+    return view('auth.email_verified');
+}
+
+public function forgetPassword(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|string|email|max:255|exists:nguoi_dung,email',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['status' => 422,'errors' => $validator->errors()], 422);
+    }
+
+    $user = NguoiDung::where('email', $request->email)->first();
+    $token = Str::random(60);
+    $user->token = $token;
+    $user->save();
+
+    $resetLink = url('password/reset?token=' . $token); // Tạo URL chứa token
+
+    // Truyền thêm thông tin người dùng vào email
+    Mail::to($user->email)->send(new ResetPasswordEmail($user->ho_ten, $resetLink));
+
+    // // Redirect tới route password.reset.form và truyền token
+    // return redirect()->route('password.reset.form', ['token' => $token])
+    //                  ->with('status', 'Password reset link sent to your email.');
+}
+public function showResetPasswordForm(Request $request)
+{
+    return view('auth.reset_password', ['token' => $request->token]);
+}
+
+    // Đặt lại mật khẩu
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required|string',
+            'email' => 'required|string|email|exists:nguoi_dung,email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $user = NguoiDung::where('email', $request->email)->where('token', $request->token)->first();
+
+        if (!$user) {
+            return back()->with('error', 'Invalid token or email.');
+        }
+
+        $user->mat_khau = $request->password;
+        $user->token = null;
+        $user->save();
+
+        return redirect()->route('login')->with('status', 'Password reset successfully.');
+    }
+ // $request->validate(['token' => 'required|string']);
+    // $user = NguoiDung::where('token', $request->token)->first();
+
+    // if ($user) {
+    //     $user->token = null;
+    //     $user->save();
+
+    //     return view('auth.login', ['message' => 'Email verified successfully.']);
+    // }
+    public function showForgetPasswordForm()
+    {
+        return view('auth.forget_password');  // Chỉ đơn giản trả về view của form quên mật khẩu
+    }
+
+
+
+
+
 }

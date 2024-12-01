@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <div class="ad-sidebar">
+<div class="ad-sidebar">
         <a class="ad-index" href="list-motor"><h2>QUẢN LÝ XE MÁY</h2></a>
         <ul>
             <li>
@@ -37,13 +37,13 @@
             </li>
           
             <li><a class="ad-tager" href="statistical"><i class="fa-solid fa-chart-pie"></i> Báo cáo thống kê</a></li>
-            <li><a class="ad-tager" href=""><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
+            <li><a class="ad-tager" href="contact"><i class="fa-solid fa-envelope"></i> Tư vấn khách hàng</a></li> 
             <li>
                 <a class="ad-tager" href="javascript:void(0)" onclick="toggleSubmenu('submenu4', this)"><i class="fa-solid fa-store"></i> Quản lý Admin</a>
                 <ul class="ad-submenu" id="submenu4">
                     <li><a class="ad-mini" href="add-admin">Tạo mới tài khoản nhân viên</a></li>
                     <li><a class="ad-mini" href="list-admin">Danh sách nhân viên</a></li>
-                    <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li>
+                    <!-- <li><a class="ad-mini" href="edit-admin">Chỉnh sửa thông tin </a></li> -->
                 </ul>
             </li>
             <!-- <li><a class="ad-tager" href="account-admin"><i class="fa-solid fa-user"></i> Quản lý tài khoản</a></li> -->
@@ -92,7 +92,7 @@
                                     <p><strong>Biển số: </strong>{{ $vehicle->bien_so }}</p> <!-- Hiển thị biển số xe -->
                                     
                                     <!-- Kiểm tra và hiển thị thông tin chủ xe -->
-                                    
+                                        
                                         <p><strong>Họ tên khách hàng: </strong>{{ $vehicle->chuXe->ho_ten }}</p> <!-- Hiển thị tên chủ xe -->
                                         <p><strong>Số điện thoại: </strong>{{ $vehicle->chuXe->so_dien_thoai }}</p> <!-- Hiển thị số điện thoại -->
                                         <p><strong>Địa chỉ: </strong>{{ $vehicle->chuXe->dia_chi }}</p> <!-- Hiển thị địa chỉ -->
@@ -113,8 +113,8 @@
                                     <p><strong>Màu sắc: </strong>{{ $vehicle->mau_sac }}</p> <!-- Hiển thị màu sắc -->
                                 </div>
                                 <div class="ad-result-actions">
-                                    <button class="ad-btn-edit" onclick="window.location.href='edit_customer.html';">Chỉnh Sửa</button>
-                                    <button class="ad-btn-delete">Xóa</button>
+                                    <button class="ad-btn-edit" onclick="window.location.href='edit-customer?id_xe={{ $vehicle->id_xe }}';">Chỉnh Sửa</button>
+                                    <button class="ad-btn-delete" onclick="window.location.href='delete?id_xe={{ $vehicle->id_xe }}';">Xóa</button>
 </div>
                             </div>
                         </div>
