@@ -85,7 +85,7 @@
                         <label for="role">Vai trò</label>
                         <input type="text" id="role" name="" value="Nhân viên" readonly />
                     </div>
-                    <div class="ad-form-group">
+                    <div class="form-group">
                         <label for="role">Trạng thái</label>
                         <select id="add-type" name="trang_thai" class="ad-select">
                             <option value="Hoạt động" {{ $xeMay->trang_thai == 'Hoạt động' ? 'selected' : '' }}>Hoạt Động</option>
