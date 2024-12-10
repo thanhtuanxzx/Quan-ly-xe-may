@@ -177,7 +177,7 @@ http://127.0.0.1:8000
 1. **Dữ liệu mẫu (tuỳ chọn):**
    Nếu cần thêm dữ liệu mẫu vào cơ sở dữ liệu, chạy lệnh:
    ```bash
-   php artisan db:seed --class=XeMaySeeder
+   php artisan db:seed
 
    ```
 
