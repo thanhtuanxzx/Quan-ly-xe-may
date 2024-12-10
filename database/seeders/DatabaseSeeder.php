@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
       $this->call([
-            NguoiDungSeeder::class,
-            XeMaySeeder::class,
-    }
+          NguoiDungSeeder::class,
+          XeMaySeeder::class,
+      ]);
+  }
 }
