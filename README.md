@@ -101,7 +101,101 @@ Hệ thống cung cấp các tính năng giúp tối ưu hóa quy trình quản 
 
 ---
 
+## Yêu cầu hệ thống
+
+Để chạy dự án, bạn cần đảm bảo hệ thống đáp ứng các yêu cầu sau:
+
+- **PHP** >= 8.0
+- **Composer** (trình quản lý thư viện PHP)
+- **MySQL** hoặc bất kỳ cơ sở dữ liệu nào được hỗ trợ bởi Laravel
+- **Node.js** và **npm** (nếu sử dụng frontend)
+- **Git** để clone repository
+
+---
+
 ## Cách cài đặt
-1. Clone repository:
+
+### 1. Clone repository
+```bash
+git clone https://github.com/thanhtuanxzx/quan-ly-xe-may.git
+cd quan-ly-xe-may
+```
+
+### 2. Cài đặt các thư viện
+```bash
+composer install
+```
+
+### 3. Tạo file `.env`
+```bash
+cp .env.example .env
+```
+
+### 4. Cấu hình file `.env`
+Mở file `.env` và cập nhật các thông tin kết nối cơ sở dữ liệu, ví dụ:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=quanlyxemay
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 5. Tạo application key
+```bash
+php artisan key:generate
+```
+
+### 6. Chạy migration để tạo database
+```bash
+php artisan migrate
+```
+
+### 7. Cài đặt frontend (nếu có)
+Nếu dự án có frontend hoặc cần xử lý giao diện, thực hiện:
+```bash
+npm install
+npm run dev
+```
+
+### 8. Chạy server
+```bash
+php artisan serve
+```
+
+### 9. Truy cập ứng dụng
+Mở trình duyệt và truy cập:
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## Ghi chú
+
+1. **Dữ liệu mẫu (tuỳ chọn):**
+   Nếu cần thêm dữ liệu mẫu vào cơ sở dữ liệu, chạy lệnh:
    ```bash
-   git clone https://github.com/thanhtuanxzx/quan-ly-xe-may
+   php artisan db:seed
+   ```
+
+2. **Email (SMTP):**
+   - Cấu hình email trong file `.env`:
+     ```env
+     MAIL_MAILER=smtp
+     MAIL_HOST=smtp.gmail.com
+     MAIL_PORT=587
+     MAIL_USERNAME=your_email@gmail.com
+     MAIL_PASSWORD=your_app_password
+     MAIL_ENCRYPTION=tls
+     MAIL_FROM_ADDRESS=your_email@gmail.com
+     MAIL_FROM_NAME="Tên dự án"
+     ```
+---
+
+## Đóng góp
+
+Nếu bạn muốn đóng góp vào dự án, vui lòng:
+- Gửi **pull request** với các thay đổi của bạn.
+- Tạo **issue** nếu bạn gặp lỗi hoặc muốn đề xuất tính năng mới.
