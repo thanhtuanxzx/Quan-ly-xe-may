@@ -152,22 +152,9 @@ php artisan key:generate
 php artisan migrate
 ```
 
-### 7. Cài đặt frontend (nếu có)
-Nếu dự án có frontend hoặc cần xử lý giao diện, thực hiện:
-```bash
-npm install
-npm run dev
-```
-
-### 8. Chạy server
+### 7. Chạy server
 ```bash
 php artisan serve
-```
-
-### 9. Truy cập ứng dụng
-Mở trình duyệt và truy cập:
-```
-http://127.0.0.1:8000
 ```
 
 ---
