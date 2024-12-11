@@ -18,15 +18,16 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role)
     {
-        $user = Auth::user(); 
-    
+        $user = Auth::user();
+
+        // Kiểm tra người dùng đăng nhập và vai trò
         if ($user && $user->vai_tro === $role) {
             return $next($request); // Cho phép tiếp tục request
         }
-    
-        // Nếu không phù hợp, chuyển hướng hoặc trả về lỗi
-        return response()->json([
-            'message' => 'Bạn không có quyền truy cập.',
-        ], 403); // HTTP 403: Forbidden
+
+
+        // Trả về lỗi nếu không đủ quyền
+        abort(403, 'Bạn không có quyền truy cập vào trang này.');
     }
+
 }
