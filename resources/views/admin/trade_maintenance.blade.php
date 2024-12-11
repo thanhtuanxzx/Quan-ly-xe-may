@@ -68,18 +68,8 @@
             @method('post')
 
             <div class="ad-form-group">
-                <label for="ho_ten">Họ tên khách hàng:</label>
-                <input type="text" id="ho_ten" name="ho_ten" >
-            </div>
-
-            <div class="ad-form-group">
-                <label for="ten_xe">Tên Xe:</label>
-                <input type="text" id="ten_xe" name="ten_xe" >
-            </div>
-           
-            <div class="ad-form-group">
                 <label for="bien_so">Biển số:</label>
-                <input type="text" id="bien_so" name="bien_so" >
+                <input type="text" id="bien_so" name="bien_so"  required>
                 @if($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -90,6 +80,18 @@
                 </div>
             @endif
             </div>
+
+            <div class="ad-form-group">
+                <label for="ho_ten">Họ tên khách hàng:</label>
+                <input type="text" id="ho_ten" name="ho_ten"  required>
+            </div>
+
+            <div class="ad-form-group">
+                <label for="ten_xe">Tên Xe:</label>
+                <input type="text" id="ten_xe" name="ten_xe"  required>
+            </div>
+           
+           
 
             <div class="ad-form-group">
                 <label for="so_dien_thoai">Số điện thoại:</label>
@@ -119,12 +121,12 @@
 
                 <div class="ad-form-group">
                     <label for="transaction-note">Ghi chú</label>
-                    <textarea rows="4" id="transaction-note" name="ghi_chu" placeholder="Nhập ghi chú tại đây"></textarea>
+                    <textarea rows="4" id="transaction-note" name="ghi_chu" placeholder="Nhập ghi chú tại đây"  required></textarea>
                 </div>
 
                 <div class="ad-form-group">
                     <label for="spare-field-1">Giá</label>
-                    <input type="text" id="spare-field-1" name="gia_ban" placeholder="Nhập giá tại đây">
+                    <input type="text" id="spare-field-1" name="gia_ban" placeholder="Nhập giá tại đây"  required>
                 </div>
     
                 <!-- <div class="ad-form-group">

@@ -422,6 +422,9 @@ class AdminController extends Controller
             'so_khung'     => 'nullable|string|max:50',
             'so_may'       => 'nullable|string|max:50',
         ]);
+        if (!empty($validatedData['bien_so']) && XeMay::where('bien_so', $validatedData['bien_so'])->exists()) {
+            return redirect()->back()->withErrors(['bien_so' => 'Biển số đã tồn tại, vui lòng nhập biển số khác.'])->withInput();
+        }
 
         // Lấy dữ liệu xe gốc theo `id_xe`
         $xeGoc = XeMay::findOrFail($validatedData['id_xe']);

@@ -88,6 +88,9 @@
                 <div class="ad-form-group">
                     <label for="add-cmnd">Biển số</label>
                     <input type="text" id="add-cmnd" name="bien_so" placeholder="Nhập biển số" required>
+                    @if ($errors->has('bien_so'))
+        <span class="text-danger">{{ $errors->first('bien_so') }}</span>
+    @endif
                 </div>
                 <div class="ad-form-group">
                     <label for="add-cmnd">Số khung</label>
