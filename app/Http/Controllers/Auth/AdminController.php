@@ -157,7 +157,6 @@ class AdminController extends Controller
         // Xác thực dữ liệu
         $validatedData = $request->validate([
             'dong_xe'=>'required|string|max:255',
-            'bien_so'=>'nullable|string|max:15',
             'loai_xe' => 'required|integer',
             'ten_xe' => 'required|string|max:255',
             'mau_sac' => 'required|string|max:255',

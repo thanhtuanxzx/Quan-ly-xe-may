@@ -91,7 +91,7 @@
             </div>
             <div class="ad-form-group">
                 <label for="add-model">Biển Số</label>
-                <input type="text" id="add-model" name="bien_so" placeholder="Nhập biển số">
+                <input type="text" id="add-model" name="bien_so" placeholder="Nhập biển số" disabled>
             </div>
             <div class="ad-form-group">
                 <label for="add-engine">Động cơ và Công nghệ</label>
